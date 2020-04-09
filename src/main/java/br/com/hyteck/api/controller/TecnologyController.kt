@@ -20,4 +20,6 @@ class TecnologyController {
     fun list(): MutableIterable<Tecnology> {
             return tecnologyRepository.findAll()
         }
+
+//    @GetMapping()
 }
