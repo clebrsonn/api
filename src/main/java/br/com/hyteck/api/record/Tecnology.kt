@@ -1,5 +1,6 @@
 package br.com.hyteck.api.record
 
+import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -15,4 +16,4 @@ data class Tecnology(@Id
                      @Column(name="alcance")
                      val distance: String = "",
                      @Column(name="bateria")
-                     val batery: String="")
+                     val batery: String=""): Serializable

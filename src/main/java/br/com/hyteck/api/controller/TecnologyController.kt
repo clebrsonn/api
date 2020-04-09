@@ -3,11 +3,8 @@ package br.com.hyteck.api.controller
 import br.com.hyteck.api.record.Tecnology
 import br.com.hyteck.api.repository.TecnologyRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.hateoas.Link
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("tecnologies")
@@ -21,5 +18,9 @@ class TecnologyController {
             return tecnologyRepository.findAll()
         }
 
-//    @GetMapping()
+    @PostMapping(consumes = ["application/json"])
+    fun save(@RequestBody tecs: List<Tecnology>): ResponseEntity<MutableIterable<Tecnology>> {
+        val saveAll = tecnologyRepository.saveAll(tecs.filterNotNull())
+        return  ResponseEntity.ok(saveAll)
+    }
 }
