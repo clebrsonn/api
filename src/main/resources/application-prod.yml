@@ -2,7 +2,7 @@ spring:
   datasource:
     username: yshtqncfpmikjs
     password: 9483a7ffe50107c1f1bed31986bd580eda51fb573b697906e453afeddab7c11c
-    url: jdbc:postgresql://ec2-54-157-78-113.compute-1.amazonaws.com:5432/dfj3ie034tcq6b
+    url: jdbc:postgresql://ec2-54-157-78-113.compute-1.amazonaws.com:5432/dfj3ie034tcq6b?createDatabaseIfNotExist=true&useSSL=false
     driver-class-name: org.postgresql.Driver
   jpa:
     properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
