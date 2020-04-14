@@ -30,7 +30,7 @@ class TecnologyController {
 
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     fun search(@RequestBody searchOptipons: SearchOptions): MutableIterable<Tecnology> {
         return tecnologyRepository.findAll(SearchOptions.SearchSpecitication.filterWithOptions(searchOptipons))
     }
