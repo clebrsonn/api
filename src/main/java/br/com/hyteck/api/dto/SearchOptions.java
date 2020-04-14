@@ -35,8 +35,8 @@ public class SearchOptions {
                         if (field.contains(FIELD_SEPARATOR)) {
                             filterInDepth(params.options, root, criteriaBuilder, predicates, field);
                         } else {
-                            if (Tecnology.class.getDeclaredField(field) != null) {
-                                predicates.add(criteriaBuilder.equal(root.get(field), params.options.get(field)));
+                            if (Tecnology.class.getDeclaredField(field) != null && params.options.get(field).length()>0) {
+                                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(field), params.options.get(field)));
                             }
                         }
                     }
@@ -52,12 +52,12 @@ public class SearchOptions {
                                           List<Predicate> predicates, String field) throws NoSuchFieldException {
             String[] compositeField = field.split(REGEX_FIELD_SPLITTER);
             if (compositeField.length == 2) {
-                if (Collection.class.isAssignableFrom(Tecnology.class.getDeclaredField(compositeField[0]).getType())) {
+                if (Collection.class.isAssignableFrom(Tecnology.class.getDeclaredField(compositeField[0]).getType()) && params.get(field).length()>0) {
                     Join<Object, Object> join = root.join(compositeField[0]);
-                    predicates.add(criteriaBuilder.equal(join.get(compositeField[1]), params.get(field)));
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(join.get(compositeField[1]), params.get(field)));
                 }
-            } else if (Tecnology.class.getDeclaredField(compositeField[0]).getType().getDeclaredField(compositeField[1]) != null) {
-                predicates.add(criteriaBuilder.equal(root.get(compositeField[0]).get(compositeField[1]), params.get(field)));
+            } else if (Tecnology.class.getDeclaredField(compositeField[0]).getType().getDeclaredField(compositeField[1]) != null && params.get(field).length()>0) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(compositeField[0]).get(compositeField[1]), params.get(field)));
             }
         }
 
