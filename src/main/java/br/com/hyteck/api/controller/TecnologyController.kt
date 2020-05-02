@@ -37,7 +37,7 @@ class TecnologyController {
     }
 
     @PostMapping("/search")
-    fun search(@RequestBody searchOptipons: SearchOptions): MutableIterable<Tecnology> {
+    fun search(@RequestBody searchOptipons: SearchOptions): MutableList<Tecnology?>? {
 
         return tecnologyService.calculate(searchOptipons)
     }

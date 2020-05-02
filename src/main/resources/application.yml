@@ -1,3 +1,14 @@
 spring:
   profiles:
     active: prod
+
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui-custom.html
+logging:
+  level:
+    web: DEBUG
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR

@@ -1,14 +1,15 @@
 package br.com.hyteck.api.service
 
 import br.com.hyteck.api.dto.SearchOptions
+import br.com.hyteck.api.repository.specification.SearchSpecitication
 import br.com.hyteck.api.record.NormalizedTecnology
 import br.com.hyteck.api.record.Tecnology
 import br.com.hyteck.api.repository.NormalizedTecnologyRepository
 import br.com.hyteck.api.repository.TecnologyRepository
-import org.hibernate.exception.ConstraintViolationException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.function.Consumer
+import java.util.stream.Collectors
 
 @Service
 class TecnologyService {
@@ -20,12 +21,12 @@ class TecnologyService {
     lateinit var normalizedTecnologyRepository: NormalizedTecnologyRepository
 
 
-    fun calculate(searchOptions: SearchOptions): MutableIterable<Tecnology> {
+    fun calculate(searchOptions: SearchOptions): MutableList<Tecnology?>? {
 
 
-        val where = SearchOptions.SearchSpecitication.filterWithOptions(searchOptions)
+        val where = SearchSpecitication.normal(searchOptions)
 
-        return tecnologyRepository.findAll(where)
+        return normalizedTecnologyRepository.findAll(where).stream().map { t -> t.tecnology }.collect(Collectors.toUnmodifiableList())
 
 
     }
