@@ -7,15 +7,16 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class SearchSpecitication {
 
-    private static final String FIELD_SEPARATOR = ".";
-    private static final String REGEX_FIELD_SPLITTER = "\\.";
+//    private static final String FIELD_SEPARATOR = ".";
+//    private static final String REGEX_FIELD_SPLITTER = "\\.";
 
     public static Specification<NormalizedTecnology> normal(SearchOptions searchOptions) {
         return (Specification<NormalizedTecnology>) (root, criteriaQuery, criteriaBuilder) -> {
 
             //(consumption/sqrt((consumption^2)+(tx_data ^2)+(range_m ^2)))
 
-            final var variance = Math.sqrt(searchOptions.options.values().stream().map(aDouble -> Math.pow(aDouble, 2)).mapToDouble(aDouble2 -> aDouble2).sum());
+            final var variance = Math.sqrt(searchOptions.options.values().stream()
+                    .map(aDouble -> Math.pow(aDouble, 2)).mapToDouble(aDouble2 -> aDouble2).sum());
 
 
             final var sumVetor = searchOptions.options.values().stream().mapToDouble(value -> value / variance).sum();

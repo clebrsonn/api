@@ -14,9 +14,9 @@ public class SwaggerConfig{
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()
-                        .title("sample application API")
+                        .title("Sec")
                         .version("1.0.0")
-                        .description("TCC"));
+                        .description("Api usada para o desenvolvimento do  TCC"));
     }
 
 }

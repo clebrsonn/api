@@ -1,9 +1,6 @@
 package br.com.hyteck.api.record
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.OneToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table
@@ -81,8 +78,8 @@ class Tecnology {
 //    @Formula("(select AVG(a.consumption) from Tecnology a)")
 //    val avgConsumption: Double? = null
 
-    @OneToOne(mappedBy = "tecnology")
-    lateinit var normalizedTecnology: NormalizedTecnology
+//    @OneToOne(mappedBy = "tecnology", fetch = FetchType.LAZY)
+//    lateinit var normalizedTecnology: NormalizedTecnology
 
 
 }
