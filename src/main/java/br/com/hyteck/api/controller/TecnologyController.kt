@@ -39,7 +39,9 @@ class TecnologyController {
     @PostMapping("/search")
     fun search(@RequestBody searchOptipons: SearchOptions): MutableList<Tecnology?>? {
 
-        return tecnologyService.calculate(searchOptipons)
+        var lista = tecnologyService.calculate(searchOptipons)
+
+        return lista
     }
 
     @GetMapping("/media")

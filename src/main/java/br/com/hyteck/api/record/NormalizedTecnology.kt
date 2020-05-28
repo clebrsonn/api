@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 @Table
 class NormalizedTecnology {
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id")
     @MapsId
     @JsonIgnore
