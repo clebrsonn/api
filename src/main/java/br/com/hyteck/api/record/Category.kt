@@ -10,8 +10,11 @@ import javax.persistence.*
 class Category {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    lateinit var id: Number
+
     @Enumerated(EnumType.STRING)
-    lateinit var id : TypeCategory
+    lateinit var type : TypeCategory
 
     @OneToMany
     @JoinColumn(name="category")
