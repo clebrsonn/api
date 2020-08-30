@@ -7,7 +7,7 @@ import javax.persistence.*
 class Tecnology {
 
     @Id
-    val nameTec: String = ""
+    lateinit var nameTec: String
 
     val ieee: String? = null
 
@@ -65,21 +65,4 @@ class Tecnology {
             }
             return field
         }
-//    @Formula("(select AVG(a.range_m) from Tecnology a)")
-//    val avgRange_m: Double? = null
-//
-//
-//    @Formula("(select AVG(a.tx_data) from Tecnology a)")
-//    val avgTx: Double? = null
-//
-//    @Formula("(select AVG(a.bandwidth) from Tecnology a)")
-//    val avgBandwidth: Double? = null
-//
-//    @Formula("(select AVG(a.consumption) from Tecnology a)")
-//    val avgConsumption: Double? = null
-
-//    @OneToOne(mappedBy = "tecnology", fetch = FetchType.LAZY)
-//    lateinit var normalizedTecnology: NormalizedTecnology
-
-
 }

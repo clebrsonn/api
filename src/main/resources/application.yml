@@ -16,3 +16,9 @@ logging:
       springframework:
         boot:
           autoconfigure: ERROR
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
