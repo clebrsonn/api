@@ -23,7 +23,6 @@ class TecnologyController {
     @Autowired
     lateinit var normalizedTecnology: NormalizedTecnologyRepository
 
-
     @GetMapping
     fun list(): MutableIterable<Tecnology> {
             return tecnologyRepository.findAll()
@@ -39,7 +38,7 @@ class TecnologyController {
     @PostMapping("/search")
     fun search(@RequestBody searchOptipons: SearchOptions): MutableList<Tecnology?>? {
 
-        var lista = tecnologyService.calculate(searchOptipons)
+        val lista = tecnologyService.calculate(searchOptipons)
 
         return lista
     }

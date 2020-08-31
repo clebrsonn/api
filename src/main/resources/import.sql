@@ -1,5 +1,13 @@
-INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Zigbee Europe', 0.3, -32, 0.868, '802.15.4', 65527, 100, 0.02) ;
- INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Zigbee América', 0.6, -32, 0.915, '802.15.4', 65527, 100, 0.04) ;
+-- Categories
+INSERT INTO public.category (id, range, type) VALUES (2, '[0,10]', 'RANGE');
+INSERT INTO public.category (id, range, type) VALUES (1, '(10,100]', 'RANGE');
+INSERT INTO public.category (id, range, type) VALUES (3, '(100,)', 'RANGE');
+INSERT INTO public.category (id, range, type) VALUES (4, '[0,1)', 'TX_DATA');
+INSERT INTO public.category (id, range, type) VALUES (5, '[1,2)', 'TX_DATA');
+INSERT INTO public.category (id, range, type) VALUES (6, '[2,3]', 'TX_DATA');
+INSERT INTO public.category (id, range, type) VALUES (7, '[54,54]', 'TX_DATA');
+
+-- Tecnologies
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Zigbee Global', 2, 0, 2.4, '802.15.4', 65527, 10, 0.25) ;
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Bluetooth Class 1', 1, 20, 2.4, '802.15.1', 8, 100, 3) ;
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Bluetooth Class 2', 1, 4, 2.4, '802.15.1', 8, 10, 2) ;
@@ -12,7 +20,6 @@ INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, 
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('GPRS', 0.2, 33, 1, '', NULL, NULL, NULL) ;
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('3G/4G', NULL, NULL, NULL, '', NULL, NULL, NULL) ;
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Wibree', NULL, 10, 2.4, '', NULL, 10, 1) ;
- INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('UWB', NULL, NULL, NULL, '802.15.3', NULL, 10, 500) ;
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Narrow Band', 0.18, 20, NULL, '', NULL, 20000, 0.127) ;
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Sigfox', 0.001, 14, 0.9, '', NULL, 40000, NULL) ;
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('WirelessHART', 2, 10, 2.4, '802.15.4-2006', NULL, 200, 0.25) ;

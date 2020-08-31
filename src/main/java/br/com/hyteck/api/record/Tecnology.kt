@@ -65,4 +65,20 @@ class Tecnology {
             }
             return field
         }
+
+    @ManyToMany(mappedBy = "tecnology")
+    lateinit var category: Set<Category>
+
+
+//    @PrePersist
+//    fun cat(){
+//
+//        this.consumption
+//
+//        this.range_m
+//
+//        this.tx_data
+//
+//
+//    }
 }
