@@ -1,5 +1,6 @@
 package br.com.hyteck.api.record
 
+import br.com.hyteck.api.enums.TypeCategory
 import com.vladmihalcea.hibernate.type.range.PostgreSQLRangeType
 import com.vladmihalcea.hibernate.type.range.Range
 import org.hibernate.annotations.TypeDef
@@ -8,7 +9,8 @@ import javax.persistence.*
 
 
 @Entity
-@Table
+@Table(uniqueConstraints =  arrayOf( UniqueConstraint(columnNames= arrayOf("range", "type"), name="range_type_constraint")))
+
 @TypeDef(
         typeClass = PostgreSQLRangeType::class,
                 defaultForType = Range::class
@@ -16,7 +18,7 @@ import javax.persistence.*
 class Category {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
 
     @Enumerated(EnumType.STRING)
@@ -30,9 +32,19 @@ class Category {
             joinColumns = [JoinColumn(name = "category_id", referencedColumnName = "id")],
             inverseJoinColumns = [JoinColumn(name = "tec_id", referencedColumnName = "nameTec")]
     )
-    var tecnology: MutableList<Tecnology> = mutableListOf()
+    var tecnologies: MutableList<Tecnology> = mutableListOf()
 
     @Column(columnDefinition = "numrange")
     lateinit var range: Range<BigDecimal>
+
+    fun addTecnology(tecnology : Tecnology){
+        tecnologies.add(tecnology)
+        tecnology.categories.add(this)
+    }
+
+    fun removeTecnology(tecnology : Tecnology){
+        tecnologies.remove(tecnology)
+        tecnology.categories.remove(this)
+    }
 
 }

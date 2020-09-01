@@ -2,6 +2,8 @@ package br.com.hyteck.api.record
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 @Entity
 @Table
@@ -34,9 +36,9 @@ class NormalizedTecnology {
     fun normalize(tecnology: Tecnology) {
         this.tecnology = tecnology
 
-        val cal = Math.sqrt(Math.pow(tecnology.consumption!!, 2.0)
-                .plus(Math.pow(tecnology.tx_data!!, 2.0))
-                .plus(Math.pow(tecnology.range_m!!, 2.0)))
+        val cal = sqrt((tecnology.consumption!!).pow(2.0)
+                .plus((tecnology.tx_data!!).pow(2.0))
+                .plus((tecnology.range_m!!).pow(2.0)))
 
         calcRangeM = tecnology.range_m!!.div(cal)
         calcConsumption = tecnology.consumption!!.div(cal)

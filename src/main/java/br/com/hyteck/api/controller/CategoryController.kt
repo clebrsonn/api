@@ -1,7 +1,7 @@
 package br.com.hyteck.api.controller
 
-import br.com.hyteck.api.record.RangeType
-import br.com.hyteck.api.record.TypeCategory
+import br.com.hyteck.api.enums.RangeType
+import br.com.hyteck.api.enums.TypeCategory
 import br.com.hyteck.api.service.CategoryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping

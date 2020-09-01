@@ -1,8 +1,7 @@
-package br.com.hyteck.api.record
+package br.com.hyteck.api.enums
 
 import com.vladmihalcea.hibernate.type.range.Range
 import java.math.BigDecimal
-
 
 enum class RangeType {
     CLOSED() {

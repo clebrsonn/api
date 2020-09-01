@@ -66,8 +66,8 @@ class Tecnology {
             return field
         }
 
-    @ManyToMany(mappedBy = "tecnology")
-    lateinit var category: Set<Category>
+    @ManyToMany(mappedBy = "tecnologies")
+    lateinit var categories: MutableSet<Category>
 
 
 //    @PrePersist

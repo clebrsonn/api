@@ -1,11 +1,11 @@
 -- Categories
-INSERT INTO public.category (id, range, type) VALUES (2, '[0,10]', 'RANGE');
-INSERT INTO public.category (id, range, type) VALUES (1, '(10,100]', 'RANGE');
-INSERT INTO public.category (id, range, type) VALUES (3, '(100,)', 'RANGE');
-INSERT INTO public.category (id, range, type) VALUES (4, '[0,1)', 'TX_DATA');
-INSERT INTO public.category (id, range, type) VALUES (5, '[1,2)', 'TX_DATA');
-INSERT INTO public.category (id, range, type) VALUES (6, '[2,3]', 'TX_DATA');
-INSERT INTO public.category (id, range, type) VALUES (7, '[54,54]', 'TX_DATA');
+INSERT INTO public.category (range, type) VALUES ('[0,10]', 'RANGE');
+INSERT INTO public.category (range, type) VALUES ('(10,100]', 'RANGE');
+INSERT INTO public.category (range, type) VALUES ('(100,)', 'RANGE');
+INSERT INTO public.category (range, type) VALUES ('[0,1)', 'TX_DATA');
+INSERT INTO public.category (range, type) VALUES ('[1,2)', 'TX_DATA');
+INSERT INTO public.category (range, type) VALUES ('[2,3]', 'TX_DATA');
+INSERT INTO public.category (range, type) VALUES ('[54,54]', 'TX_DATA');
 
 -- Tecnologies
  INSERT INTO public.tecnology(name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Zigbee Global', 2, 0, 2.4, '802.15.4', 65527, 10, 0.25) ;

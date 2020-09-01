@@ -15,10 +15,10 @@ import java.util.stream.Collectors
 class TecnologyService {
 
     @Autowired
-    lateinit var tecnologyRepository: TecnologyRepository
+    private lateinit var tecnologyRepository: TecnologyRepository
 
     @Autowired
-    lateinit var normalizedTecnologyRepository: NormalizedTecnologyRepository
+    private  lateinit var normalizedTecnologyRepository: NormalizedTecnologyRepository
 
 
     fun calculate(searchOptions: SearchOptions): MutableList<Tecnology?>? {
@@ -49,6 +49,10 @@ class TecnologyService {
         return normalizedTecnologyRepository.findAll()
 
 
+    }
+
+    fun findAll(): MutableList<Tecnology>{
+        return tecnologyRepository.findAll()
     }
 
 }

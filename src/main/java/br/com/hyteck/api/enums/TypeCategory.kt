@@ -1,4 +1,4 @@
-package br.com.hyteck.api.record
+package br.com.hyteck.api.enums
 
 
 enum class TypeCategory {
