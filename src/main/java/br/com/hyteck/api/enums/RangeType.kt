@@ -1,8 +1,10 @@
 package br.com.hyteck.api.enums
 
 import com.vladmihalcea.hibernate.type.range.Range
+import io.swagger.v3.oas.annotations.media.Schema
 import java.math.BigDecimal
 
+@Schema
 enum class RangeType {
     CLOSED() {
         override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {

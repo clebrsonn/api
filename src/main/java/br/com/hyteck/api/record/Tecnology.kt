@@ -1,5 +1,6 @@
 package br.com.hyteck.api.record
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.*
 
 @Entity
@@ -66,7 +67,8 @@ class Tecnology {
             return field
         }
 
-    @ManyToMany(mappedBy = "tecnologies")
+    @ManyToMany(mappedBy = "tecnologies", fetch = FetchType.LAZY)
+    @JsonBackReference
     lateinit var categories: MutableSet<Category>
 
 

@@ -15,8 +15,6 @@ open class CategoryService {
     @Autowired
     lateinit var categoryRepository: CategoryRepository
 
-
-
     @Autowired
     lateinit var tecnologyService: TecnologyService
 
@@ -30,7 +28,7 @@ open class CategoryService {
         calculateCategories()
     }
 
-    fun calculateCategories(){
+    open fun calculateCategories(){
         val tecnologies = tecnologyService.findAll()
         var categories = categoryRepository.findAll()
 
@@ -47,6 +45,9 @@ open class CategoryService {
 
     }
 
+    open fun findAll(): MutableList<Category> {
+        return categoryRepository.findAll()
+    }
 
 
 }

@@ -4,7 +4,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
 #springdoc:
 #  swagger-ui:
@@ -22,3 +22,5 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+springdoc:
+  override-with-generic-response: false

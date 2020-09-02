@@ -1,6 +1,7 @@
 package br.com.hyteck.api.record
 
 import br.com.hyteck.api.enums.TypeCategory
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.vladmihalcea.hibernate.type.range.PostgreSQLRangeType
 import com.vladmihalcea.hibernate.type.range.Range
 import org.hibernate.annotations.TypeDef
@@ -24,6 +25,10 @@ class Category {
     @Enumerated(EnumType.STRING)
     lateinit var type : TypeCategory
 
+
+    @Column(columnDefinition = "numrange")
+    lateinit var range: Range<BigDecimal>
+
     @ManyToMany(cascade = [
         CascadeType.PERSIST,
         CascadeType.MERGE
@@ -32,10 +37,8 @@ class Category {
             joinColumns = [JoinColumn(name = "category_id", referencedColumnName = "id")],
             inverseJoinColumns = [JoinColumn(name = "tec_id", referencedColumnName = "nameTec")]
     )
+    @JsonManagedReference
     var tecnologies: MutableList<Tecnology> = mutableListOf()
-
-    @Column(columnDefinition = "numrange")
-    lateinit var range: Range<BigDecimal>
 
     fun addTecnology(tecnology : Tecnology){
         tecnologies.add(tecnology)
