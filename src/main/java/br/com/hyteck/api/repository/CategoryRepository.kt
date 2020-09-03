@@ -5,7 +5,7 @@ import br.com.hyteck.api.record.Category
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface CategoryRepository : JpaRepository<Category, String>{
+interface CategoryRepository : JpaRepository<Category, Long>{
 
 //    @Query(
 //    "SELECT c from Category  c " +

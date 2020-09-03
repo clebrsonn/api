@@ -1,11 +1,11 @@
 package br.com.hyteck.api.service
 
 import br.com.hyteck.api.dto.SearchOptions
-import br.com.hyteck.api.repository.specification.SearchSpecitication
 import br.com.hyteck.api.record.NormalizedTecnology
 import br.com.hyteck.api.record.Tecnology
 import br.com.hyteck.api.repository.NormalizedTecnologyRepository
 import br.com.hyteck.api.repository.TecnologyRepository
+import br.com.hyteck.api.repository.specification.SearchSpecitication
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.function.Consumer
@@ -53,6 +53,10 @@ class TecnologyService {
 
     fun findAll(): MutableList<Tecnology>{
         return tecnologyRepository.findAll()
+    }
+
+    fun findAllByCategories(catIds: MutableSet<Long>): MutableList<Tecnology> {
+        return tecnologyRepository.findAllByCategories(catIds)
     }
 
 }

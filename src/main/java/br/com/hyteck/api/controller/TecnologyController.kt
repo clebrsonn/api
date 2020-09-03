@@ -3,7 +3,6 @@ package br.com.hyteck.api.controller
 import br.com.hyteck.api.dto.SearchOptions
 import br.com.hyteck.api.record.NormalizedTecnology
 import br.com.hyteck.api.record.Tecnology
-import br.com.hyteck.api.repository.NormalizedTecnologyRepository
 import br.com.hyteck.api.repository.TecnologyRepository
 import br.com.hyteck.api.service.TecnologyService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,17 +19,14 @@ class TecnologyController {
     @Autowired
     lateinit var tecnologyService: TecnologyService
 
-    @Autowired
-    lateinit var normalizedTecnology: NormalizedTecnologyRepository
-
     @GetMapping
     fun list(): MutableIterable<Tecnology> {
-            return tecnologyRepository.findAll()
-        }
+        return tecnologyRepository.findAll()
+    }
 
     @PostMapping(consumes = ["application/json"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody tecs: List<Tecnology>){
+    fun save(@RequestBody tecs: List<Tecnology>) {
         tecnologyRepository.saveAll(tecs.filterNotNull())
 
     }
@@ -44,9 +40,14 @@ class TecnologyController {
     }
 
     @GetMapping("/media")
-    fun test(): MutableList<NormalizedTecnology> {
+    fun calculateMedia(): MutableList<NormalizedTecnology> {
         return tecnologyService.calculateMedia()
     }
 
+
+    @GetMapping("/find")
+    fun findAllByCategories(@RequestParam catId: MutableSet<Long>): MutableList<Tecnology> {
+        return tecnologyService.findAllByCategories(catId)
+    }
 
 }
