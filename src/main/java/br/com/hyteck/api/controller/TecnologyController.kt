@@ -26,10 +26,19 @@ class TecnologyController {
 
     @PostMapping(consumes = ["application/json"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody tecs: List<Tecnology>) {
-        tecnologyRepository.saveAll(tecs.filterNotNull())
+    fun saveAll(@RequestBody tecs: List<Tecnology>) {
+        tecnologyService.saveAll(tecs.filterNotNull())
 
     }
+
+
+    @PostMapping(consumes = ["application/json"])
+    @ResponseStatus(HttpStatus.CREATED)
+    fun save(@RequestBody tec: Tecnology) {
+        tecnologyService.save(tec)
+
+    }
+
 
     @PostMapping("/search")
     fun search(@RequestBody searchOptipons: SearchOptions): MutableList<Tecnology?>? {

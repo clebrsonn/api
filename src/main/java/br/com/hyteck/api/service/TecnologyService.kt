@@ -18,6 +18,9 @@ class TecnologyService {
     private lateinit var tecnologyRepository: TecnologyRepository
 
     @Autowired
+    private lateinit var categoryService: CategoryService
+
+    @Autowired
     private  lateinit var normalizedTecnologyRepository: NormalizedTecnologyRepository
 
     fun calculate(searchOptions: SearchOptions): MutableList<Tecnology?>? {
@@ -52,6 +55,16 @@ class TecnologyService {
 
     fun findAllByCategories(catIds: MutableSet<Long>): MutableList<Tecnology> {
         return tecnologyRepository.findAllByCategories(catIds)
+    }
+
+    fun saveAll(filterNotNull: List<Tecnology>) {
+        val tecnologies = tecnologyRepository.saveAll(filterNotNull)
+        categoryService.calculateCategories(tecnologies)
+    }
+
+    fun save(tec: Tecnology) {
+        val tecnology = tecnologyRepository.save(tec)
+        categoryService.calculateCategories(mutableListOf(tecnology))
     }
 
 }
