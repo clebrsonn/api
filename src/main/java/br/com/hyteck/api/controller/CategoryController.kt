@@ -23,9 +23,9 @@ class CategoryController {
 
     @PostMapping
     @Parameters(value = [Parameter(name = "lower",
-                description = "lower",
-                example = "2.0",
-                required = false),
+            description = "lower",
+            example = "2.0",
+            required = false),
         Parameter(name = "upper",
                 description = "upper",
                 example = "2.0",
@@ -39,15 +39,15 @@ class CategoryController {
                 description = "typeCategory",
                 example = "RANGE",
                 required = true,
-        schema = Schema(implementation = TypeCategory::class))
+                schema = Schema(implementation = TypeCategory::class))
     ])
-    fun save(lower: BigDecimal, upper: BigDecimal, rangeType: RangeType, typeCategory: TypeCategory) {
-        categoryService.save(lower, upper, rangeType, typeCategory)
+    fun save(lower: BigDecimal, upper: BigDecimal, rangeType: RangeType, typeCategory: TypeCategory): MutableList<Category> {
+        return categoryService.save(lower, upper, rangeType, typeCategory)
     }
 
     @GetMapping("/adjust")
     fun categories() {
-        categoryService.calculateCategories(categoryService.tecnologyService.findAll())
+        categoryService.calculateCategories()
     }
 
     @GetMapping

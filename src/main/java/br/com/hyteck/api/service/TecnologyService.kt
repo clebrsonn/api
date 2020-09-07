@@ -57,14 +57,17 @@ class TecnologyService {
         return tecnologyRepository.findAllByCategories(catIds)
     }
 
-    fun saveAll(filterNotNull: List<Tecnology>) {
+    fun saveAll(filterNotNull: List<Tecnology>) : MutableList<Tecnology> {
         val tecnologies = tecnologyRepository.saveAll(filterNotNull)
         categoryService.calculateCategories(tecnologies)
+
+        return tecnologies
     }
 
-    fun save(tec: Tecnology) {
-        val tecnology = tecnologyRepository.save(tec)
-        categoryService.calculateCategories(mutableListOf(tecnology))
-    }
+//    fun save(tec: Tecnology) : MutableList<Tecnology>{
+//        val tecnology = tecnologyRepository.save(tec)
+//        categoryService.calculateCategories(mutableListOf(tecnology))
+//        return tecnology;
+//    }
 
 }

@@ -14,34 +14,30 @@ import org.springframework.web.bind.annotation.*
 class TecnologyController {
 
     @Autowired
-    lateinit var tecnologyRepository: TecnologyRepository
-
-    @Autowired
     lateinit var tecnologyService: TecnologyService
 
     @GetMapping
     fun list(): MutableIterable<Tecnology> {
-        return tecnologyRepository.findAll()
+        return tecnologyService.findAll()
     }
 
     @PostMapping(consumes = ["application/json"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun saveAll(@RequestBody tecs: List<Tecnology>) {
-        tecnologyService.saveAll(tecs.filterNotNull())
-
+    fun save(@RequestBody tecs: MutableList<Tecnology>): MutableList<Tecnology>{
+        return tecnologyService.saveAll(tecs.filterNotNull())
     }
 
 
-    @PostMapping(consumes = ["application/json"])
-    @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody tec: Tecnology) {
-        tecnologyService.save(tec)
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    fun save(@RequestBody tec: Tecnology) {
+//        tecnologyService.save(tec)
+//
+//    }
 
-    }
 
-
-    @PostMapping("/search")
-    fun search(@RequestBody searchOptipons: SearchOptions): MutableList<Tecnology?>? {
+    @GetMapping("/search")
+    fun search(@RequestParam searchOptipons: SearchOptions): MutableList<Tecnology?>? {
 
         val lista = tecnologyService.calculate(searchOptipons)
 
@@ -54,7 +50,7 @@ class TecnologyController {
     }
 
 
-    @GetMapping("/find")
+    @GetMapping("/find-by-categories")
     fun findAllByCategories(@RequestParam catId: MutableSet<Long>): MutableList<Tecnology> {
         return tecnologyService.findAllByCategories(catId)
     }
