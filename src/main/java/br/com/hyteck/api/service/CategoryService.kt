@@ -29,10 +29,7 @@ open class CategoryService {
     }
 
     open fun calculateCategories(){
-        val tecnologies = tecnologyService.findAll()
-        var categories = categoryRepository.findAll()
-
-        tecnologies.forEach  {
+        tecnologyService.findAll().forEach  {
             val catRange = it.range_m?.let { range -> categoryRepository.findByTypeAndRange(type = TypeCategory.RANGE.name, range = range) }
             val catTxData = it.tx_data?.let { txData -> categoryRepository.findByTypeAndRange(type = TypeCategory.TX_DATA.name, range = txData) }
 
@@ -42,7 +39,6 @@ open class CategoryService {
             catRange?.let { categoryRepository.save(catRange) }
             catTxData?.let { categoryRepository.save(catTxData) }
         }
-
     }
 
     open fun findAll(): MutableList<Category> {
