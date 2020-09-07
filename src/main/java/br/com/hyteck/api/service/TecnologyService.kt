@@ -20,14 +20,11 @@ class TecnologyService {
     @Autowired
     private  lateinit var normalizedTecnologyRepository: NormalizedTecnologyRepository
 
-
     fun calculate(searchOptions: SearchOptions): MutableList<Tecnology?>? {
-
 
         val where = SearchSpecitication.normal(searchOptions)
 
         return normalizedTecnologyRepository.findAll(where).stream().map { t -> t.tecnology }.collect(Collectors.toUnmodifiableList())
-
 
     }
 
@@ -47,8 +44,6 @@ class TecnologyService {
         })
 
         return normalizedTecnologyRepository.findAll()
-
-
     }
 
     fun findAll(): MutableList<Tecnology>{

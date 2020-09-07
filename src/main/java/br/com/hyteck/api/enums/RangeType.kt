@@ -7,61 +7,33 @@ import java.math.BigDecimal
 @Schema
 enum class RangeType {
     CLOSED() {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.closed(lower, upper);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.closed(lower, upper)
     },
     OPEN() {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.open(lower, upper);
-
-
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.open(lower, upper)
     },
     INFINITE {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.infinite(BigDecimal::class.java);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.infinite(BigDecimal::class.java)
     },
     OPEN_CLOSED {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.openClosed(lower, upper);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.openClosed(lower, upper)
     },
 
     CLOSED_OPEN {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.closedOpen(lower, upper);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.closedOpen(lower, upper)
     },
     OPEN_INFINITE {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.openInfinite(lower);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.openInfinite(lower)
     },
     CLOSED_INFINITE {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.closedInfinite(lower);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.closedInfinite(lower)
     },
     INFINITE_OPEN {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.infiniteOpen(upper);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.infiniteOpen(upper)
     },
     INFINITE_CLOSED() {
-        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> {
-            return Range.infiniteClosed(upper);
-
-        }
+        override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.infiniteClosed(upper)
     };
 
-
     abstract fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal>
-
 }
