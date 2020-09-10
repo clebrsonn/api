@@ -3,7 +3,6 @@ package br.com.hyteck.api.controller
 import br.com.hyteck.api.dto.SearchOptions
 import br.com.hyteck.api.record.NormalizedTecnology
 import br.com.hyteck.api.record.Tecnology
-import br.com.hyteck.api.repository.TecnologyRepository
 import br.com.hyteck.api.service.TecnologyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

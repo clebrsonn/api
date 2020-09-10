@@ -1,6 +1,7 @@
 package br.com.hyteck.api.record
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
 
@@ -10,12 +11,14 @@ import javax.persistence.*
 class Tecnology {
 
     @Id
+    @Parameter
     lateinit var nameTec: String
 
+    @Parameter
     val ieee: String? = null
-
+    @Parameter
     val frequency: Double? = 0.0
-
+    @Parameter
     var tx_data: Double? = null
         set(value) {
             if (value == null) {
@@ -29,6 +32,7 @@ class Tecnology {
             return field
         }
 
+    @Parameter
     var range_m: Double? = 0.0
         set(value) {
             if (value == null) {
@@ -41,6 +45,8 @@ class Tecnology {
             }
             return field
         }
+
+    @Parameter
     var bandwidth: Double? = 0.0
         set(value) {
             if (value == null) {
@@ -54,8 +60,10 @@ class Tecnology {
             return field
         }
 
+    @Parameter
     val nr_nodes: Int? = 0
 
+    @Parameter
     var consumption: Double? = 0.0
         set(value) {
             if (value == null) {

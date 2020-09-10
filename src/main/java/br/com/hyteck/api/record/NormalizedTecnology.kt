@@ -28,7 +28,8 @@ class NormalizedTecnology {
     var vetor: Double? = null
 
 
-    constructor() {}
+    constructor()
+
     constructor(tecnology: Tecnology) {
         normalize(tecnology)
     }
