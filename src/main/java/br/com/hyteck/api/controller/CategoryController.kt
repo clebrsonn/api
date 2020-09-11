@@ -47,7 +47,7 @@ class CategoryController {
 
     @GetMapping("/adjust")
     fun categories() {
-        categoryService.calculateCategories(categoryService.tecnologyService.findAll())
+        categoryService.calculateCategories(categoryService.technologyService.findAll())
     }
 
     @GetMapping

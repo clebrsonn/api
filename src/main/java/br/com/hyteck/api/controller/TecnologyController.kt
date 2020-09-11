@@ -1,9 +1,9 @@
 package br.com.hyteck.api.controller
 
 import br.com.hyteck.api.dto.SearchOptions
-import br.com.hyteck.api.record.NormalizedTecnology
-import br.com.hyteck.api.record.Tecnology
-import br.com.hyteck.api.service.TecnologyService
+import br.com.hyteck.api.record.NormalizedTechnology
+import br.com.hyteck.api.record.Technology
+import br.com.hyteck.api.service.TechnologyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -13,45 +13,45 @@ import org.springframework.web.bind.annotation.*
 class TecnologyController {
 
     @Autowired
-    lateinit var tecnologyService: TecnologyService
+    lateinit var technologyService: TechnologyService
 
     @GetMapping
-    fun list(): MutableIterable<Tecnology> {
-        return tecnologyService.findAll()
+    fun list(): MutableIterable<Technology> {
+        return technologyService.findAll()
     }
 
     @PostMapping(consumes = ["application/json"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody tecs: MutableList<Tecnology>): MutableList<Tecnology>{
-        return tecnologyService.saveAll(tecs.filterNotNull())
+    fun save(@RequestBody tecs: MutableList<Technology>): MutableList<Technology>{
+        return technologyService.saveAll(tecs.filterNotNull())
     }
 
 
 //    @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
-//    fun save(@RequestBody tec: Tecnology) {
+//    fun save(@RequestBody tec: Technology) {
 //        tecnologyService.save(tec)
 //
 //    }
 
 
     @GetMapping("/search")
-    fun search(@RequestParam searchOptipons: SearchOptions): MutableList<Tecnology?>? {
+    fun search(@RequestParam searchOptipons: SearchOptions): MutableList<Technology?>? {
 
-        val lista = tecnologyService.calculate(searchOptipons)
+        val lista = technologyService.calculate(searchOptipons)
 
         return lista
     }
 
     @GetMapping("/media")
-    fun calculateMedia(): MutableList<NormalizedTecnology> {
-        return tecnologyService.calculateMedia()
+    fun calculateMedia(): MutableList<NormalizedTechnology> {
+        return technologyService.calculateMedia()
     }
 
 
     @GetMapping("/find-by-categories")
-    fun findAllByCategories(@RequestParam catId: MutableSet<Long>): MutableList<Tecnology> {
-        return tecnologyService.findAllByCategories(catId)
+    fun findAllByCategories(@RequestParam catId: MutableSet<Long>): MutableList<Technology> {
+        return technologyService.findAllByCategories(catId)
     }
 
 }

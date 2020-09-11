@@ -35,19 +35,19 @@ class Category {
     ])
     @JoinTable(name = "category_tecnology",
             joinColumns = [JoinColumn(name = "category_id", referencedColumnName = "id")],
-            inverseJoinColumns = [JoinColumn(name = "tec_id", referencedColumnName = "nameTec")]
+            inverseJoinColumns = [JoinColumn(name = "tec_id", referencedColumnName = "id")]
     )
     @JsonManagedReference
-    var tecnologies: MutableList<Tecnology> = mutableListOf()
+    var technologies: MutableList<Technology> = mutableListOf()
 
-    fun addTecnology(tecnology : Tecnology){
-        tecnologies.add(tecnology)
-        tecnology.categories.add(this)
+    fun addTecnology(technology : Technology){
+        technologies.add(technology)
+        technology.categories.add(this)
     }
 
-    fun removeTecnology(tecnology : Tecnology){
-        tecnologies.remove(tecnology)
-        tecnology.categories.remove(this)
+    fun removeTecnology(technology : Technology){
+        technologies.remove(technology)
+        technology.categories.remove(this)
     }
 
 }

@@ -4,14 +4,19 @@ import com.fasterxml.jackson.annotation.JsonBackReference
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
+import javax.validation.Constraint
 
 @Entity
 @Table
 @Schema
-class Tecnology {
+class Technology {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long = 0
+
     @Parameter
+    @Column(unique = true, nullable=false)
     lateinit var nameTec: String
 
     @Parameter
@@ -77,7 +82,7 @@ class Tecnology {
             return field
         }
 
-    @ManyToMany(mappedBy = "tecnologies", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "technologies", fetch = FetchType.EAGER)
     @JsonBackReference
     lateinit var categories: MutableSet<Category>
 

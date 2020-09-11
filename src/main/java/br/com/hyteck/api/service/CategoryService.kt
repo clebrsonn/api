@@ -3,7 +3,7 @@ package br.com.hyteck.api.service
 import br.com.hyteck.api.record.Category
 import br.com.hyteck.api.enums.RangeType
 import br.com.hyteck.api.enums.TypeCategory
-import br.com.hyteck.api.record.Tecnology
+import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.repository.CategoryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -17,7 +17,7 @@ open class CategoryService {
     private lateinit var categoryRepository: CategoryRepository
 
     @Autowired
-    lateinit var tecnologyService: TecnologyService
+    lateinit var technologyService: TechnologyService
 
     @Transactional
     open fun save(lower: BigDecimal, upper: BigDecimal, rangeType: RangeType, typeCategory: TypeCategory) : MutableList<Category> {
@@ -26,12 +26,12 @@ open class CategoryService {
         category.type = typeCategory
         categoryRepository.save(category)
 
-        calculateCategories(tecnologyService.findAll())
+        calculateCategories(technologyService.findAll())
         return categoryRepository.findAll()
     }
 
-    open fun calculateCategories(tecnologies : MutableList<Tecnology>){
-        tecnologies.forEach  {
+    open fun calculateCategories(technologies : MutableList<Technology>){
+        technologies.forEach  {
             val catRange = it.range_m?.let { range -> categoryRepository.findByTypeAndRange(type = TypeCategory.RANGE.name, range = range) }
             val catTxData = it.tx_data?.let { txData -> categoryRepository.findByTypeAndRange(type = TypeCategory.TX_DATA.name, range = txData) }
 
