@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
-import javax.validation.Constraint
 
 @Entity
 @Table
@@ -13,10 +12,9 @@ class Technology {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    val id: Long? = null
 
     @Parameter
-    @Column(unique = true, nullable=false)
     lateinit var nameTec: String
 
     @Parameter
@@ -86,6 +84,9 @@ class Technology {
     @JsonBackReference
     lateinit var categories: MutableSet<Category>
 
+
+    @OneToOne(mappedBy = "technology")
+    var statisticalTechnologies: StatisticalTechnologies? = null
 
 //    @PrePersist
 //    fun cat(){

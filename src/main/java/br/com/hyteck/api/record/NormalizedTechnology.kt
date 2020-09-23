@@ -15,7 +15,7 @@ class NormalizedTechnology {
     lateinit var technology: Technology
 
     @Id
-    val id: Long? = 0
+    val id: Long? = null
 
     var calcRangeM = 0.0
 
@@ -37,15 +37,19 @@ class NormalizedTechnology {
     fun normalize(technology: Technology) {
         this.technology = technology
 
-        val cal = sqrt((technology.consumption!!).pow(2.0)
-                .plus((technology.tx_data!!).pow(2.0))
+        val cal = sqrt(
+                //(technology.consumption!!).pow(2.0)
+                //.plus
+                ((technology.tx_data!!).pow(2.0))
                 .plus((technology.range_m!!).pow(2.0)))
 
         calcRangeM = technology.range_m!!.div(cal)
-        calcConsumption = technology.consumption!!.div(cal)
+     //   calcConsumption = technology.consumption!!.div(cal)
         calcTx = technology.tx_data!!.div(cal)
 
-        vetor = calcTx.plus(calcConsumption).plus(calcRangeM)
+        vetor = calcTx
+                //.plus(calcConsumption)
+                .plus(calcRangeM)
 
     }
 }

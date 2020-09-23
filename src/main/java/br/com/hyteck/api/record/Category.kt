@@ -20,7 +20,7 @@ class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    var id: Long? = null
 
     @Enumerated(EnumType.STRING)
     lateinit var type : TypeCategory
@@ -33,7 +33,7 @@ class Category {
         CascadeType.PERSIST,
         CascadeType.MERGE
     ])
-    @JoinTable(name = "category_tecnology",
+    @JoinTable(name = "category_technology",
             joinColumns = [JoinColumn(name = "category_id", referencedColumnName = "id")],
             inverseJoinColumns = [JoinColumn(name = "tec_id", referencedColumnName = "id")]
     )

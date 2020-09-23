@@ -38,6 +38,12 @@ dependencies {
     compile "com.github.haifengl:smile-core:2.5.2"
     compile "com.github.haifengl:smile-io:2.5.2"
 
+    // https://mvnrepository.com/artifact/org.openscience.cdk/cdk-smiles
+    testCompile group: 'org.openscience.cdk', name: 'cdk-smiles', version: '2.3'
+// https://mvnrepository.com/artifact/org.openscience.cdk/cdk-core
+    compile group: 'org.openscience.cdk', name: 'cdk-core', version: '2.3'
+
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
