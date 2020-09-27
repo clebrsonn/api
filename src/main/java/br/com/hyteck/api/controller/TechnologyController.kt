@@ -2,7 +2,6 @@ package br.com.hyteck.api.controller
 
 import br.com.hyteck.api.dto.SearchOptions
 import br.com.hyteck.api.record.NormalizedTechnology
-import br.com.hyteck.api.record.StatisticalTechnologies
 import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.service.TechnologyService
 import org.springframework.beans.factory.annotation.Autowired
@@ -53,11 +52,6 @@ class TechnologyController {
     @GetMapping("/find-by-categories")
     fun findAllByCategories(@RequestParam catId: MutableSet<Long>): MutableList<Technology> {
         return technologyService.findAllByCategories(catId)
-    }
-
-    @GetMapping("/calculate-statistics")
-    fun calcStatisticals(): MutableList<StatisticalTechnologies> {
-        return technologyService.calcStatisticals()
     }
 
 }

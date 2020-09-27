@@ -2,10 +2,8 @@ package br.com.hyteck.api.service
 
 import br.com.hyteck.api.dto.SearchOptions
 import br.com.hyteck.api.record.NormalizedTechnology
-import br.com.hyteck.api.record.StatisticalTechnologies
 import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.repository.NormalizedTechnologyRepository
-import br.com.hyteck.api.repository.StatisticalTechnologiesRepository
 import br.com.hyteck.api.repository.TechnologyRepository
 import br.com.hyteck.api.repository.specification.SearchSpecification
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,9 +23,6 @@ open class TechnologyService {
 
     @Autowired
     lateinit var normalizedTechnologyRepository: NormalizedTechnologyRepository
-
-    @Autowired
-    lateinit var statisticalTechnologiesRepository: StatisticalTechnologiesRepository
 
     open fun calculate(searchOptions: SearchOptions): MutableList<Technology?>? {
 
@@ -65,17 +60,9 @@ open class TechnologyService {
 
     open fun saveAll(filterNotNull: List<Technology>) : MutableList<Technology> {
         val tecnologies = technologyRepository.saveAll(filterNotNull)
-        categoryService.calculateCategories(tecnologies)
+      //  categoryService.calculateCategories(tecnologies)
 
         return tecnologies
-    }
-    @Transactional
-    open fun calcStatisticals() : MutableList<StatisticalTechnologies> {
-        val tecs = technologyRepository.findAll()
-        val techs = SearchSpecification.calcStatistics(tecs)
-        techs.forEach(Consumer { tech -> statisticalTechnologiesRepository.save(tech.statisticalTechnologies!!)})
-
-        return statisticalTechnologiesRepository.findAll()
     }
 
 //    fun save(tec: Technology) : MutableList<Technology>{

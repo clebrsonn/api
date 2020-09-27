@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TechnologyRepository : JpaRepository<Technology, Long>, JpaSpecificationExecutor<Technology>, CustomTechnologyRepository {
-}
+interface TechnologyRepository : JpaRepository<Technology, Long>, JpaSpecificationExecutor<Technology>, CustomTechnologyRepository

@@ -1,9 +1,7 @@
 package br.com.hyteck.api.repository.specification;
 
 import br.com.hyteck.api.dto.SearchOptions;
-import br.com.hyteck.api.enums.TypeCategory;
 import br.com.hyteck.api.record.NormalizedTechnology;
-import br.com.hyteck.api.record.StatisticalTechnologies;
 import br.com.hyteck.api.record.Technology;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -11,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 
 public class SearchSpecification {
@@ -48,56 +45,7 @@ public class SearchSpecification {
         return Math.sqrt(desvio/options.get().count());
     }
 
-    public static List<Technology> calcStatistics(List<Technology> tecs){
 
-        Supplier<DoubleStream> tecTx = () -> tecs.stream().mapToDouble(Technology::getTx_data);
-        var summaryStatisticsTx = tecTx.get().summaryStatistics();
-        var txSd = SearchSpecification.calcSd(tecTx);
-
-
-        Supplier<DoubleStream> tecRange = ()-> tecs.stream().mapToDouble(Technology::getRange_m);
-        var summaryStatisticsRg = tecRange.get().summaryStatistics();
-        var rgSd = SearchSpecification.calcSd(tecRange);
-
-        Supplier<DoubleStream> tecConsumption = ()-> tecs.stream().mapToDouble(Technology::getConsumption);
-        var summaryStatisticsCm = tecConsumption.get().summaryStatistics();
-        var cmSd = SearchSpecification.calcSd(tecConsumption);
-
-        for (Technology tec : tecs) {
-            var statistical = StatisticalTechnologies.builder()
-                    .count(tecTx.get().count())
-
-
-                    .technology(tec)
-                    .zScoreTx((tec.getTx_data()- summaryStatisticsTx.getAverage())/txSd)
-                    .minMaxTx((tec.getTx_data()-summaryStatisticsTx.getMin())/(summaryStatisticsTx.getMax()-summaryStatisticsTx.getMin()))
-                    .meanTx(summaryStatisticsTx.getAverage())
-                    .maxTx(summaryStatisticsTx.getMax())
-                    .minTx(summaryStatisticsTx.getMin())
-                    .sdTx(txSd)
-
-                    .zScoreEng((tec.getConsumption()- summaryStatisticsCm.getAverage())/cmSd)
-                    .minMaxEng((tec.getConsumption()-summaryStatisticsCm.getMin())/(summaryStatisticsCm.getMax()-summaryStatisticsCm.getMin()))
-                    .meanEng(summaryStatisticsCm.getAverage())
-                    .maxEng(summaryStatisticsCm.getMax())
-                    .minEng(summaryStatisticsCm.getMin())
-                    .sdEng(cmSd)
-
-                    .zScoreRng((tec.getRange_m()- summaryStatisticsRg.getAverage())/rgSd)
-                    .minMaxRng((tec.getRange_m()-summaryStatisticsRg.getMin())/(summaryStatisticsRg.getMax()-summaryStatisticsRg.getMin()))
-                    .meanRng(summaryStatisticsRg.getAverage())
-                    .maxRng(summaryStatisticsRg.getMax())
-                    .minRng(summaryStatisticsRg.getMin())
-                    .sdRng(rgSd)
-
-                    .build();
-
-            tec.setStatisticalTechnologies(statistical);
-        }
-
-
-        return tecs;
-    }
 
 //    public static Specification<Technology> filterWithOptions(SearchOptions params) {
 //        return (root, query, criteriaBuilder) -> {
