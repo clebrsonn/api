@@ -1,5 +1,6 @@
 package br.com.hyteck.api.dto
 
+import br.com.hyteck.api.enums.TypeCategory
 import lombok.Getter
 import lombok.Setter
 import java.io.Serializable
@@ -9,7 +10,7 @@ import java.io.Serializable
 @Setter
 class SearchOptions: Serializable {
 
-    lateinit var options: MutableMap<String, Double>
+    lateinit var options: MutableMap<TypeCategory, Double>
 
     fun zScore(){
 
