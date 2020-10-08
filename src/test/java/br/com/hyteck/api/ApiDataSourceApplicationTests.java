@@ -8,21 +8,11 @@ import br.com.hyteck.api.service.TechnologyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import smile.base.cart.SplitRule;
-import smile.classification.DecisionTree;
 import smile.classification.KNN;
-import smile.classification.RandomForest;
 import smile.data.DataFrame;
-import smile.data.formula.Formula;
 import smile.data.measure.NominalScale;
 import smile.neighbor.KDTree;
 import smile.neighbor.KNNSearch;
-import smile.validation.Accuracy;
-import smile.validation.ConfusionMatrix;
-import smile.validation.CrossValidation;
-import smile.validation.Validation;
-
-import java.util.Arrays;
 
 @SpringBootTest
 class ApiDataSourceApplicationTests {
@@ -82,7 +72,7 @@ class ApiDataSourceApplicationTests {
         NominalScale nominalScale = df.stringVector("nameTec").nominal();
 
 
-        double[][] X = df.select("tx_data", "range_m").toArray();
+        double[][] X = df.select("txData", "rangeM").toArray();
         int[] y = df.stringVector("nameTec").factorize(nominalScale).toIntArray();
         //int k = 2;
         KNNSearch<double[], double[]> search = new KDTree<>(X, X);
@@ -107,7 +97,7 @@ class ApiDataSourceApplicationTests {
             predicao = knn.predict(new double[]{1, 100});
             System.out.println("Bluetooth Class 1: " + nominalScale.level(predicao));
 
-            predicao = knn.predict(new double[]{0.1, 100});
+            predicao = knn.predict(new double[]{0.1, 10});
             System.out.println("WirelessHART/ Narrow Band/ LoraWAN/ Bluetooth Class 1/ WIFI 2.4/5Ghz: "
                     + nominalScale.level(predicao));
 
