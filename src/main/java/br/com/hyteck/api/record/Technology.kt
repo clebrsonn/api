@@ -24,7 +24,7 @@ class Technology {
     var frequency: Double? = 0.0
 
     @Parameter
-    var tx_data: Double? = null
+    var txData: Double? = null
         set(value) {
             field = value ?: 0.0
         }
@@ -36,7 +36,8 @@ class Technology {
         }
 
     @Parameter
-    var range_m: Double? = 0.0
+    @Column(name="range_m")
+    var rangeM: Double? = 0.0
         set(value) {
             field = value ?: 0.0
         }
@@ -60,7 +61,7 @@ class Technology {
         }
 
     @Parameter
-    var nr_nodes: Int? = 0
+    var nrNodes: Int? = 0
 
     @Parameter
     var consumption: Double? = 0.0
@@ -74,8 +75,8 @@ class Technology {
             return field
         }
 
-    @Parameter
-    var classification: String? = null
+//    @Parameter
+//    var classification: String? = null
 
     @ManyToMany(mappedBy = "technologies", fetch = FetchType.LAZY)
     @JsonBackReference

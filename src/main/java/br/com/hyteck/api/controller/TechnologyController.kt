@@ -26,13 +26,13 @@ class TechnologyController {
         return technologyService.saveAll(tecs.filterNotNull())
     }
 
+    @PostMapping("/search-by-tec")
+    fun s(@RequestBody searchOptipons: SearchOptions): MutableList<Technology?>? {
 
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    fun save(@RequestBody tec: Technology) {
-//        tecnologyService.save(tec)
-//
-//    }
+        val lista = technologyService.searchTec(searchOptipons)
+
+        return lista
+    }
 
 
     @GetMapping("/search")

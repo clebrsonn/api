@@ -1,6 +1,7 @@
 package br.com.hyteck.api.repository.specification;
 
 import br.com.hyteck.api.dto.SearchOptions;
+import br.com.hyteck.api.enums.TypeCategory;
 import br.com.hyteck.api.record.NormalizedTechnology;
 import br.com.hyteck.api.record.Technology;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,14 +37,25 @@ public class SearchSpecification {
         };
     }
 
+    public static Specification<Technology> where(SearchOptions search){
 
-    public static double calcSd(Supplier<DoubleStream> options){
+        return (Specification<Technology>) (root, criteriaQuery, criteriaBuilder) -> {
+            var range = search.options.get(TypeCategory.RANGE);
+//            criteriaBuilder.greaterThanOrEqualTo(root.get("range_m"), range);
+//            criteriaBuilder.lessThanOrEqualTo(root.get("range_m"),(range * 1.3));
+            return criteriaBuilder.between(root.get(TypeCategory.RANGE.getType()), range, (range * 1.3));
+        };
 
-        var mean = options.get().average().getAsDouble();
-        var desvio = options.get().map(value -> Math.pow(value - mean, 2)).sum();
-
-        return Math.sqrt(desvio/options.get().count());
     }
+
+
+//    public static double calcSd(Supplier<DoubleStream> options){
+//
+//        var mean = options.get().average().getAsDouble();
+//        var desvio = options.get().map(value -> Math.pow(value - mean, 2)).sum();
+//
+//        return Math.sqrt(desvio/options.get().count());
+//    }
 
 
 

@@ -44,32 +44,32 @@ class ApiDataSourceApplicationTests {
     @Test
     void testBLE1() {
 
-        var df = DataFrame.of(technologyRepository.findAll(), Technology.class);//new JSON().read(tecJson);
-        NominalScale nominalScale = df.stringVector("nameTec").nominal();
-//        var tree = new DecisionTree(df, );
-
-
-        var x = df.select("tx_data", "range_m").toArray();
-        var y = df.column("id").toIntArray();
-        var cross = CrossValidation.classification(10, x, y, (var, ints) -> KNN.fit(var, ints, 3));
-
-        df = df.select("nameTec", "tx_data", "range_m");
-
-        var tree = DecisionTree.fit(Formula.lhs("nameTec"), df);
-
-        var pred = Validation.test(tree, df);
-
-
-        var ret = tree.predict(DataFrame.of(new double[][]{{0.1, 100.0}}, "tx_data", "range_m"));
-        System.out.println(Arrays.toString(ret));
-
-        System.out.format("Accuracy = %.2f%%%n", (100.0 * Accuracy.of(y, pred)));
-        System.out.format("Confusion Matrix: %s%n", ConfusionMatrix.of(y, pred));
-
-        var tree2 = RandomForest.fit(Formula.lhs("nameTec"), df, 16, 2,
-                SplitRule.ENTROPY, 10, 10, 2, 1);
-        ret = tree2.predict(DataFrame.of(new double[][]{{0.1, 100.0}}, "tx_data", "range_m"));
-        System.out.println(Arrays.toString(ret));
+//        var df = DataFrame.of(technologyRepository.findAll(), Technology.class);//new JSON().read(tecJson);
+//        NominalScale nominalScale = df.stringVector("nameTec").nominal();
+////        var tree = new DecisionTree(df, );
+//
+//
+//        var x = df.select("tx_data", "range_m").toArray();
+//        var y = df.column("id").toIntArray();
+//        var cross = CrossValidation.classification(10, x, y, (var, ints) -> KNN.fit(var, ints, 3));
+//
+//        df = df.select("nameTec", "tx_data", "range_m");
+//
+//        var tree = DecisionTree.fit(Formula.lhs("nameTec"), df);
+//
+//        var pred = Validation.test(tree, df);
+//
+//
+//        var ret = tree.predict(DataFrame.of(new double[][]{{0.1, 100.0}}, "tx_data", "range_m"));
+//        System.out.println(Arrays.toString(ret));
+//
+//        System.out.format("Accuracy = %.2f%%%n", (100.0 * Accuracy.of(y, pred)));
+//        System.out.format("Confusion Matrix: %s%n", ConfusionMatrix.of(y, pred));
+//
+//        var tree2 = RandomForest.fit(Formula.lhs("nameTec"), df, 16, 2,
+//                SplitRule.ENTROPY, 10, 10, 2, 1);
+//        ret = tree2.predict(DataFrame.of(new double[][]{{0.1, 100.0}}, "tx_data", "range_m"));
+//        System.out.println(Arrays.toString(ret));
 
     }
 

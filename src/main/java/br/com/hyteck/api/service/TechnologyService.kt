@@ -1,15 +1,17 @@
 package br.com.hyteck.api.service
 
 import br.com.hyteck.api.dto.SearchOptions
+import br.com.hyteck.api.enums.TypeCategory
 import br.com.hyteck.api.record.NormalizedTechnology
 import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.repository.NormalizedTechnologyRepository
 import br.com.hyteck.api.repository.TechnologyRepository
 import br.com.hyteck.api.repository.specification.SearchSpecification
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.util.function.Consumer
+import java.util.function.Predicate
 import java.util.stream.Collectors
 
 @Service
@@ -37,10 +39,10 @@ open class TechnologyService {
         val tecnologies = technologyRepository.findAll()
 
         tecnologies.forEach(Consumer { tecnology ->
-            if(!normalizedTechnologyRepository.existsById(tecnology.id)){
+            if (!normalizedTechnologyRepository.existsById(tecnology.id)) {
                 val normalizedTecnology = NormalizedTechnology(tecnology)
                 normalizedTechnologyRepository.save(normalizedTecnology)
-            }else{
+            } else {
                 val tecForUpdate = normalizedTechnologyRepository.findById(tecnology.id).get()
                 tecForUpdate.normalize(tecnology)
                 normalizedTechnologyRepository.save(tecForUpdate)
@@ -64,6 +66,15 @@ open class TechnologyService {
 
         return tecnologies
     }
+
+    open fun searchTec(searchOptions: SearchOptions): MutableList<Technology?>? {
+        var sort= Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type)
+        var list = technologyRepository.findAll(SearchSpecification.where(searchOptions), sort )
+        list = list.stream().filter { t -> t.txData!! >= searchOptions.options[TypeCategory.TX_DATA]!! }.collect(Collectors.toList())
+
+        return list
+    }
+
 
 //    fun save(tec: Technology) : MutableList<Technology>{
 //        val technology = tecnologyRepository.save(tec)
