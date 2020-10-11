@@ -12,15 +12,4 @@ class SearchOptions: Serializable {
 
     lateinit var options: MutableMap<TypeCategory, Double>
 
-    fun zScore(){
-
-        //z score = (x - media(x)) / desvio padrao (x)
-
-    }
-    fun minMax() {
-     //   minMax = (X - min(x)) / max(x) - min(x)
-    }
-
-
-
 }

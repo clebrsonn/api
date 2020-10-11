@@ -8,10 +8,10 @@ import br.com.hyteck.api.repository.NormalizedTechnologyRepository
 import br.com.hyteck.api.repository.TechnologyRepository
 import br.com.hyteck.api.repository.specification.SearchSpecification
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import java.util.*
 import java.util.function.Consumer
-import java.util.function.Predicate
 import java.util.stream.Collectors
 
 @Service
@@ -38,13 +38,13 @@ open class TechnologyService {
 
         val tecnologies = technologyRepository.findAll()
 
-        tecnologies.forEach(Consumer { tecnology ->
-            if (!normalizedTechnologyRepository.existsById(tecnology.id)) {
-                val normalizedTecnology = NormalizedTechnology(tecnology)
+        tecnologies.forEach(Consumer { technology ->
+            if (!normalizedTechnologyRepository.existsById(technology.id)) {
+                val normalizedTecnology = NormalizedTechnology(technology)
                 normalizedTechnologyRepository.save(normalizedTecnology)
             } else {
-                val tecForUpdate = normalizedTechnologyRepository.findById(tecnology.id).get()
-                tecForUpdate.normalize(tecnology)
+                val tecForUpdate = normalizedTechnologyRepository.findById(technology.id).get()
+                tecForUpdate.normalize(technology)
                 normalizedTechnologyRepository.save(tecForUpdate)
             }
         })
@@ -68,9 +68,12 @@ open class TechnologyService {
     }
 
     open fun searchTec(searchOptions: SearchOptions): MutableList<Technology?>? {
-        var sort= Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type)
+        val sort= Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type, TypeCategory.ENERGY.type)
         var list = technologyRepository.findAll(SearchSpecification.where(searchOptions), sort )
-        list = list.stream().filter { t -> t.txData!! >= searchOptions.options[TypeCategory.TX_DATA]!! }.collect(Collectors.toList())
+        list = list.stream()
+                .filter { t -> t.txData!! >= searchOptions.options[TypeCategory.TX_DATA]!! }
+                .sorted(Comparator.comparingDouble { t -> t.txData!! })
+                .collect(Collectors.toList())
 
         return list
     }

@@ -29,7 +29,7 @@ public class DistanceService implements Distance<double[]> {
 
         var dist1 = 0.2 *(Math.pow(x[1]- y[1],2));
 
-        var ym = Math.pow(dist0 + dist1, 0.5);
+        var ym = Math.sqrt(dist0 + dist1);
 
 
         double d1 = x[0] -y[0];

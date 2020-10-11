@@ -40,12 +40,12 @@ class NormalizedTechnology {
         val cal = sqrt(
                 //(technology.consumption!!).pow(2.0)
                 //.plus
-                ((technology.tx_data!!).pow(2.0))
-                .plus((technology.range_m!!).pow(2.0)))
+                ((technology.txData!!).pow(2.0))
+                .plus((technology.rangeM!!).pow(2.0)))
 
-        calcRangeM = technology.range_m!!.div(cal)
+        calcRangeM = technology.rangeM!!.div(cal)
      //   calcConsumption = technology.consumption!!.div(cal)
-        calcTx = technology.tx_data!!.div(cal)
+        calcTx = technology.txData!!.div(cal)
 
         vetor = calcTx
                 //.plus(calcConsumption)
