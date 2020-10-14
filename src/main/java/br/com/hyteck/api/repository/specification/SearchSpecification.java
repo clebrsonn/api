@@ -41,21 +41,11 @@ public class SearchSpecification {
 
         return (Specification<Technology>) (root, criteriaQuery, criteriaBuilder) -> {
             var range = search.options.get(TypeCategory.RANGE);
-//            criteriaBuilder.greaterThanOrEqualTo(root.get("range_m"), range);
-//            criteriaBuilder.lessThanOrEqualTo(root.get("range_m"),(range * 1.3));
             return criteriaBuilder.between(root.get(TypeCategory.RANGE.getType()), range, (range * 1.3));
         };
 
     }
 
-
-//    public static double calcSd(Supplier<DoubleStream> options){
-//
-//        var mean = options.get().average().getAsDouble();
-//        var desvio = options.get().map(value -> Math.pow(value - mean, 2)).sum();
-//
-//        return Math.sqrt(desvio/options.get().count());
-//    }
 
 
 
