@@ -12,7 +12,7 @@ public class CorsConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("https://app.netlify.com", "http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins("https://tecs-tcc.netlify.app", "http://localhost:3000");
             }
         };
     }
