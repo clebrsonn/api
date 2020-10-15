@@ -1,6 +1,7 @@
 package br.com.hyteck.api.record
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
@@ -79,7 +80,8 @@ class Technology {
 //    var classification: String? = null
 
     @ManyToMany(mappedBy = "technologies", fetch = FetchType.LAZY)
-    @JsonBackReference
+  //  @JsonBackReference
+    @JsonIgnore
     var categories: MutableSet<Category> = mutableSetOf()
 
 }

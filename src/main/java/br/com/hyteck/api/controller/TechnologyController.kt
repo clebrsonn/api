@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("tecnologies")
+@RequestMapping("technologies")
 class TechnologyController {
 
     @Autowired
@@ -26,8 +26,8 @@ class TechnologyController {
         return technologyService.saveAll(tecs.filterNotNull())
     }
 
-    @PostMapping("/search-by-tec")
-    fun s(@RequestBody searchOptipons: SearchOptions): MutableList<Technology?>? {
+    @PostMapping("/search")
+    fun search(@RequestBody searchOptipons: SearchOptions): MutableList<Technology?>? {
 
         val lista = technologyService.searchTec(searchOptipons)
 
@@ -35,8 +35,8 @@ class TechnologyController {
     }
 
 
-    @GetMapping("/search")
-    fun search(@RequestParam searchOptipons: SearchOptions): MutableList<Technology?>? {
+    @GetMapping("/calculate")
+    fun calculate(@RequestParam searchOptipons: SearchOptions): MutableList<Technology?>? {
 
         val lista = technologyService.calculate(searchOptipons)
 

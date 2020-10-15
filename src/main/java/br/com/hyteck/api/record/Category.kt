@@ -37,7 +37,7 @@ class Category {
             joinColumns = [JoinColumn(name = "category_id", referencedColumnName = "id")],
             inverseJoinColumns = [JoinColumn(name = "tec_id", referencedColumnName = "id")]
     )
-    @JsonManagedReference
+   // @JsonManagedReference
     var technologies: MutableList<Technology> = mutableListOf()
 
     fun addTecnology(technology : Technology){
