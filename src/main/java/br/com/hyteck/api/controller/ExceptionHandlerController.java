@@ -1,5 +1,6 @@
 package br.com.hyteck.api.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 @ControllerAdvice
+@Hidden
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     private final MessageSource messageSource;
 
