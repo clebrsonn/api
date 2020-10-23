@@ -26,10 +26,10 @@ class TechnologyController {
         return technologyService.saveAll(tecs.filterNotNull())
     }
 
-    @PostMapping("/search")
-    fun search(@RequestBody searchOptipons: SearchOptions): MutableList<Technology?>? {
+    @GetMapping("/search")
+    fun search(@RequestParam range: Double, @RequestParam tx_data: Double): MutableList<Technology?>? {
 
-        val lista = technologyService.searchTec(searchOptipons)
+        val lista = technologyService.searchTec(range, tx_data)
 
         return lista
     }
@@ -50,8 +50,8 @@ class TechnologyController {
 
 
     @GetMapping("/find-by-categories")
-    fun findAllByCategories(@RequestParam catId: MutableSet<Long>): MutableList<Technology> {
-        return technologyService.findAllByCategories(catId)
+    fun findAllByCategories(@RequestParam catIds: MutableSet<Long>): MutableList<Technology> {
+        return technologyService.findAllByCategories(catIds)
     }
 
 }

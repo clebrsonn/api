@@ -52,7 +52,7 @@ open class TechnologyService {
         return normalizedTechnologyRepository.findAll()
     }
 
-    open  fun findAll(): MutableList<Technology>{
+    open fun findAll(): MutableList<Technology> {
         return technologyRepository.findAll()
     }
 
@@ -60,18 +60,18 @@ open class TechnologyService {
         return technologyRepository.findAllByCategories(catIds)
     }
 
-    open fun saveAll(filterNotNull: List<Technology>) : MutableList<Technology> {
+    open fun saveAll(filterNotNull: List<Technology>): MutableList<Technology> {
         val tecnologies = technologyRepository.saveAll(filterNotNull)
-      //  categoryService.calculateCategories(tecnologies)
+        //  categoryService.calculateCategories(tecnologies)
 
         return tecnologies
     }
 
-    open fun searchTec(searchOptions: SearchOptions): MutableList<Technology?>? {
-        val sort= Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type, TypeCategory.ENERGY.type)
-        var list = technologyRepository.findAll(SearchSpecification.where(searchOptions), sort )
+    open fun searchTec(range: Double, tx_data: Double): MutableList<Technology?>? {
+        val sort = Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type, TypeCategory.ENERGY.type)
+        var list = technologyRepository.findAll(SearchSpecification.where(range), sort)
         list = list.stream()
-                .filter { t -> t.txData!! >= searchOptions.options[TypeCategory.TX_DATA]!! }
+                .filter { t -> t.txData!! >= tx_data }
                 .sorted(Comparator.comparingDouble { t -> t.txData!! })
                 .collect(Collectors.toList())
 

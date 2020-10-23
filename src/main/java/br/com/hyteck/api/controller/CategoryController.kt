@@ -1,5 +1,6 @@
 package br.com.hyteck.api.controller
 
+import br.com.hyteck.api.dto.CategoryDTO
 import br.com.hyteck.api.enums.RangeType
 import br.com.hyteck.api.enums.TypeCategory
 import br.com.hyteck.api.record.Category
@@ -51,7 +52,7 @@ class CategoryController {
     }
 
     @GetMapping
-    fun findAll(): MutableList<Category> {
-        return categoryService.findAll()
+    fun findAll(): MutableList<CategoryDTO> {
+        return CategoryDTO.from(categoryService.findAll())
     }
 }

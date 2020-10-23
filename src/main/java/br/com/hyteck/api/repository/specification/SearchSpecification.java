@@ -37,10 +37,9 @@ public class SearchSpecification {
         };
     }
 
-    public static Specification<Technology> where(SearchOptions search){
+    public static Specification<Technology> where(Double range){
 
         return (Specification<Technology>) (root, criteriaQuery, criteriaBuilder) -> {
-            var range = search.options.get(TypeCategory.RANGE);
             return criteriaBuilder.between(root.get(TypeCategory.RANGE.getType()), range, (range * 1.3));
         };
 
