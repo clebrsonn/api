@@ -5,15 +5,15 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.math.BigDecimal
 
 /**
- * Define o tipo de intervalo ao qual está sendo usado para as categorias
+ * Defines the type of range at which it is being used for categories
  *
  */
-@Schema
+@Schema(description = "Defines the type of range at which it is being used for categories")
 enum class RangeType {
-    CLOSED() {
+    CLOSED {
         override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.closed(lower, upper)
     },
-    OPEN() {
+    OPEN {
         override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.open(lower, upper)
     },
     INFINITE {
@@ -35,7 +35,7 @@ enum class RangeType {
     INFINITE_OPEN {
         override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.infiniteOpen(upper)
     },
-    INFINITE_CLOSED() {
+    INFINITE_CLOSED {
         override fun apply(lower: BigDecimal, upper: BigDecimal): Range<BigDecimal> = Range.infiniteClosed(upper)
     };
 

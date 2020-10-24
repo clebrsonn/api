@@ -1,7 +1,5 @@
 package br.com.hyteck.api.controller
 
-import br.com.hyteck.api.dto.SearchOptions
-import br.com.hyteck.api.record.NormalizedTechnology
 import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.service.TechnologyService
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,32 +20,19 @@ class TechnologyController {
 
     @PostMapping(consumes = ["application/json"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody tecs: MutableList<Technology>): MutableList<Technology>{
-        return technologyService.saveAll(tecs.filterNotNull())
+    fun save(@RequestBody tecs: MutableList<Technology>): MutableIterable<Technology> {
+        return technologyService.save(tecs.filterNotNull())
     }
 
     @GetMapping("/search")
-    fun search(@RequestParam range: Double, @RequestParam tx_data: Double): MutableList<Technology?>? {
+    fun search(@RequestParam params :Map<String, Double>): MutableList<Technology?>? {
 
-        val lista = technologyService.searchTec(range, tx_data)
+        val range: Double = params.getValue("range")
 
-        return lista
+        val txData: Double = params.getValue("tx_data")
+
+        return technologyService.searchTec(range, txData)
     }
-
-
-    @GetMapping("/calculate")
-    fun calculate(@RequestParam searchOptipons: SearchOptions): MutableList<Technology?>? {
-
-        val lista = technologyService.calculate(searchOptipons)
-
-        return lista
-    }
-
-    @GetMapping("/media")
-    fun calculateMedia(): MutableList<NormalizedTechnology> {
-        return technologyService.calculateMedia()
-    }
-
 
     @GetMapping("/find-by-categories")
     fun findAllByCategories(@RequestParam catIds: MutableSet<Long>): MutableList<Technology> {

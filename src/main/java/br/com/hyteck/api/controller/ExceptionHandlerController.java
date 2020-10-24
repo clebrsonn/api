@@ -1,6 +1,7 @@
 package br.com.hyteck.api.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,6 +30,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         this.messageSource = messageSource;
     }
 
+    @NotNull
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status,
@@ -37,17 +39,17 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         String messageUser = messageSource.getMessage("mensagem.invalida", null,
                 LocaleContextHolder.getLocale());
         String messageDev = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
-        List<Erro> erros = Collections.singletonList(new Erro(messageDev, messageUser));
+        List<Error> errors = Collections.singletonList(new Error(messageDev, messageUser));
 
-        return handleExceptionInternal(ex, erros, headers, status, request);
+        return handleExceptionInternal(ex, errors, headers, status, request);
     }
 
     @ExceptionHandler({NoSuchFieldException.class})
     protected ResponseEntity<Object> handleNoSuchFieldException(NoSuchFieldException ex, WebRequest request) {
         String messageUser = messageSource.getMessage("parametro.invalido", null, LocaleContextHolder.getLocale());
         String messageDev = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
-        List<Erro> erros = Collections.singletonList(new Erro(messageDev, messageUser));
-        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        List<Error> errors = Collections.singletonList(new Error(messageDev, messageUser));
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
     }
 
@@ -55,8 +57,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        List<Erro> erros = criarListaDeErros(ex.getBindingResult());
-        return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
+        List<Error> errors = createErrorsList(ex.getBindingResult());
+        return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
     }
 
 
@@ -64,29 +66,32 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
         String messageUser = messageSource.getMessage("recurso.nao-encontrado", null, LocaleContextHolder.getLocale());
         String messageDev = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
-        List<Erro> erros = Collections.singletonList(new Erro(messageDev, messageUser));
-        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        List<Error> errors = Collections.singletonList(new Error(messageDev, messageUser));
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    private List<Erro> criarListaDeErros(BindingResult bindingResult) {
-        List<Erro> errors = new ArrayList<>();
+    private List<Error> createErrorsList(BindingResult bindingResult) {
+        List<Error> errors = new ArrayList<>();
 
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             String mensagemUsuario = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
             String mensagemDesenvolvedor = fieldError.toString();
-            errors.add(new Erro(mensagemDesenvolvedor, mensagemUsuario));
+            errors.add(new Error(mensagemDesenvolvedor, mensagemUsuario));
         }
 
         return errors;
     }
 
 
-    public class Erro {
+    /**
+     * 
+     */
+    public class Error {
         private String messageDeveloper;
         private String messageUser;
 
 
-        Erro(String messageDeveloper, String messageUser) {
+        Error(String messageDeveloper, String messageUser) {
             this.messageDeveloper = messageDeveloper;
             this.messageUser = messageUser;
         }
