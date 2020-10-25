@@ -7,7 +7,9 @@ Api's utilizada para o backend do projeto criado para o TCC da UFRPE. Tem como r
 
 ![Issues](https://img.shields.io/github/issues/clebrsonn/api?style=for-the-badge)  ![License](https://img.shields.io/github/license/clebrsonn/api?style=for-the-badge) [![Netlify Status](https://api.netlify.com/api/v1/badges/3f6a71d6-cf50-4d91-ae41-25ce46a2ba9c/deploy-status)](https://app.netlify.com/sites/tecs-tcc/deploys) ![Heroku](https://img.shields.io/website?down_color=red&down_message=failure&label=deploy&style=for-the-badge&up_message=success&url=https%3A%2F%2Ftcc-hyteck.herokuapp.com%2Fswagger-ui.html)
 
-[![Heroku](http://tcc-hyteck.herokuapp.com/?app=tcc-hyteck)]
+[![Heroku](http://heroku-badge.herokuapp.com/?app=tcc-hyteck)]
+
+
 
 Tabela de conteúdos
 =================
