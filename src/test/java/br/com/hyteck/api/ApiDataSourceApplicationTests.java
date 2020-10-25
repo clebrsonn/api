@@ -1,32 +1,22 @@
 package br.com.hyteck.api;
 
-import br.com.hyteck.api.dto.SearchOptions;
-import br.com.hyteck.api.enums.TypeCategory;
 import br.com.hyteck.api.record.Technology;
-import br.com.hyteck.api.repository.NormalizedTechnologyRepository;
 import br.com.hyteck.api.repository.TechnologyRepository;
+import br.com.hyteck.api.service.Classifier;
 import br.com.hyteck.api.service.DistanceService;
 import br.com.hyteck.api.service.TechnologyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import smile.base.cart.SplitRule;
-import smile.classification.DecisionTree;
 import smile.classification.KNN;
-import smile.classification.RandomForest;
 import smile.data.DataFrame;
-import smile.data.formula.Formula;
 import smile.data.measure.NominalScale;
 import smile.neighbor.KDTree;
 import smile.neighbor.KNNSearch;
-import smile.validation.Accuracy;
-import smile.validation.ConfusionMatrix;
-import smile.validation.CrossValidation;
-import smile.validation.Validation;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ApiDataSourceApplicationTests {
@@ -34,183 +24,153 @@ class ApiDataSourceApplicationTests {
     @Autowired
     private TechnologyService technologyService;
 
-    @Autowired
-    private TechnologyRepository technologyRepository;
-
-
-    @Autowired
-    private NormalizedTechnologyRepository normalizedTechnologyRepository;
-
     @Test
     void contextLoads() {
     }
 
     @Test
-    void test1() {
-
-        var df = DataFrame.of(technologyRepository.findAll(), Technology.class);//new JSON().read(tecJson);
-        NominalScale nominalScale = df.stringVector("nameTec").nominal();
-//        var tree = new DecisionTree(df, );
-
-
-        var x = df.select("tx_data", "range_m").toArray();
-        var y = df.column("id").toIntArray();
-        var cross = CrossValidation.classification(10, x, y, (var, ints) -> KNN.fit(var, ints, 3));
-
-        df = df.select("nameTec", "tx_data", "range_m");
-
-        var tree = DecisionTree.fit(Formula.lhs("nameTec"), df);
-
-        var pred = Validation.test(tree, df);
-
-
-        var ret = tree.predict(DataFrame.of(new double[][]{{0.1, 100.0}}, "tx_data", "range_m"));
-        System.out.println(Arrays.toString(ret));
-
-        System.out.format("Accuracy = %.2f%%%n", (100.0 * Accuracy.of(y, pred)));
-        System.out.format("Confusion Matrix: %s%n", ConfusionMatrix.of(y, pred));
-
-        var tree2 = RandomForest.fit(Formula.lhs("nameTec"), df, 16, 2,
-                SplitRule.ENTROPY, 10, 10, 2, 1);
-        ret = tree2.predict(DataFrame.of(new double[][]{{0.1, 100.0}}, "tx_data", "range_m"));
-        System.out.println(Arrays.toString(ret));
-
-    }
-
-    @Test
-    void test2() {
+    void testWithSmilesKNN() {
 
         var technologies = technologyService.findAll();
 
-        var df = DataFrame.of(technologies, Technology.class);//new JSON().read(tecJson);
-        NominalScale nominalScale = df.stringVector("nameTec").nominal();
+        var classifier = new Classifier(technologies, 1);
 
+//        var df = DataFrame.of(technologies, Technology.class);//new JSON().read(tecJson);
+//        NominalScale nominalScale = df.stringVector("nameTec").nominal();
+//
+//
+//        double[][] X = df.select("txData", "rangeM").toArray();
+//        int[] y = df.stringVector("nameTec").factorize(nominalScale).toIntArray();
 
-        double[][] X = df.select("txData", "rangeM").toArray();
-        int[] y = df.stringVector("nameTec").factorize(nominalScale).toIntArray();
-        //int k = 2;
-        KNNSearch<double[], double[]> search = new KDTree<>(X, X);
-        //var knn = new KNN<>(search, y, k);
-        System.out.println("--------------------TECHNOLOGIES-------------------------------------");
+//        var knn = KNN.fit(X, y, 1, new DistanceService());
 
+        int predicao = classifier.getKnn().predict(new double[]{2, 50});
+        assertEquals("BLE Classe 1", classifier.getNominalScale().level(predicao));
 
-        for (int i = 1; i < 3; i++) {
-            var knn = KNN.fit(X, y, i, new DistanceService());
-            int predicao = knn.predict(new double[]{2, 50});
-            System.out.println("Bluetooth Smart (BLE) 1: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{3, 100});
+        assertEquals("Bluetooth Classe 1", classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{3, 100});
-            System.out.println("Bluetooth Class 1: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{54, 100});
+        System.out.println("WIFI 2.4/5 Ghz: " + classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{54, 100});
-            System.out.println("WIFI 2.4/5 Ghz: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{54, 99});
+        System.out.println("WIFI 2.4/5 Ghz: " + classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{54, 99});
-            System.out.println("WIFI 2.4/5 Ghz: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{1, 100});
+        assertEquals("Bluetooth Classe 1", classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{1, 100});
-            System.out.println("Bluetooth Class 1: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{0.1, 10});
+        assertEquals("Zigbee Global", classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{0.1, 10});
-            System.out.println("Zigbee Global, Wibree, Bluetooth Class 2: "
-                    + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{0.24, 10});
+        assertEquals("Zigbee Global", classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{0.24, 10});
-            System.out.println("Zigbee Global: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{1, 9});
+        assertEquals("Wibree", classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{1, 9});
-            System.out.println("Wibree/Bluetooth Class 2: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{1, 8});
+        assertEquals("Wibree", classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{1, 8});
-            System.out.println(" Wibree, Bluetooth Classe 2: " + nominalScale.level(predicao));
+        predicao = classifier.getKnn().predict(new double[]{2, 8});
+        assertEquals("Bluetooth Classe 2", classifier.getNominalScale().level(predicao));
 
-            predicao = knn.predict(new double[]{2, 8});
-            System.out.println("Bluetooth Class 2: " + nominalScale.level(predicao));
+        classifier = new Classifier(technologies, 2);
 
-            predicao = knn.predict(new double[]{0.5, 8});
-            System.out.println("Wibree, Bluetooth Classe 2: " + nominalScale.level(predicao));
-
-            System.out.println("--------------------TECHNOLOGIES-------------------------------------");
-
-        }
+        predicao = classifier.getKnn().predict(new double[]{0.5, 8});
+            assertEquals("Wibree", classifier.getNominalScale().level(predicao));
 
     }
 
     @Test
-    void test3(){
+    void test3() {
 
-        SearchOptions searchOptions= new SearchOptions();
-        var options = new HashMap<TypeCategory, Double>();
-
-        options.put(TypeCategory.RANGE, 50d);
-        options.put(TypeCategory.TX_DATA, 2d);
-        searchOptions.setOptions(options);
-        System.out.println("Bluetooth Smart (BLE) 1: "  + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
-
-        options.put(TypeCategory.RANGE, 100d);
-        options.put(TypeCategory.TX_DATA, 3d);
-        searchOptions.setOptions(options);
-        System.out.println("Bluetooth Class 1: "  + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+        var techs = technologyService.searchTec(50, 2).stream().
+                map(Technology::getNameTec).collect(Collectors.toList());
+        assertEquals(1L, techs.stream().filter(s -> s.equals("BLE Classe 1")).count());
+    }
 
 
-        options.put(TypeCategory.RANGE, 100d);
-        options.put(TypeCategory.TX_DATA, 54d);
-        searchOptions.setOptions(options);
-        System.out.println("WIFI 2.4/5 Ghz: "  + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+    @Test
+    void test4() {
+        var techs = (technologyService.searchTec(100, 3).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Bluetooth Classe 1")).count());
+    }
 
+    @Test
+    void test5() {
+        var techs = technologyService.searchTec(100, 54).stream().
+                map(Technology::getNameTec).collect(Collectors.toList());
+        assertEquals(1L, techs.stream().filter(s -> s.equals("WIFI 2.4Ghz")).count());
 
-        options.put(TypeCategory.RANGE, 99d);
-        options.put(TypeCategory.TX_DATA, 54d);
-        searchOptions.setOptions(options);
-        System.out.println("WIFI 2.4/5 Ghz: "  + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+    }
 
-        options.put(TypeCategory.RANGE, 100d);
-        options.put(TypeCategory.TX_DATA, 1d);
-        searchOptions.setOptions(options);
-        System.out.println("Bluetooth Class 1: " + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+    @Test
+    void test6() {
 
-        options.put(TypeCategory.RANGE, 10d);
-        options.put(TypeCategory.TX_DATA, 0.1);
-        searchOptions.setOptions(options);
-        System.out.println("Zigbee Global, Wibree, Bluetooth Class 2: "
-                + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+        var techs = (technologyService.searchTec(99, 54).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("WIFI 2.4Ghz")).count());
 
-        options.put(TypeCategory.RANGE, 10d);
-        options.put(TypeCategory.TX_DATA, 0.24);
-        searchOptions.setOptions(options);
-        System.out.println("Zigbee Global: " + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+    }
 
-        options.put(TypeCategory.RANGE, 9d);
-        options.put(TypeCategory.TX_DATA, 1d);
-        searchOptions.setOptions(options);
-        System.out.println("Wibree/Bluetooth Class 2: " + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+    @Test
+    void test11() {
 
-        options.put(TypeCategory.RANGE, 8d);
-        options.put(TypeCategory.TX_DATA, 1d);
-        searchOptions.setOptions(options);
-        System.out.println("Bluetooth Class 3: "  + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+        var techs = (technologyService.searchTec(100, 1).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Bluetooth Classe 1")).count());
+    }
 
-        options.put(TypeCategory.RANGE, 8d);
-        options.put(TypeCategory.TX_DATA, 2d);
-        searchOptions.setOptions(options);
-        System.out.println("Bluetooth Class 2: " + technologyService.searchTec(searchOptions).stream().
-                map(Technology::getNameTec).collect(Collectors.joining(", ")));
+    @Test
+    void test12() {
 
-        options.put(TypeCategory.RANGE, 8d);
-        options.put(TypeCategory.TX_DATA, 0.5);
-        searchOptions.setOptions(options);
-        System.out.println("Bluetooth Smart (BLE) 2/Bluetooth Class 3: " + technologyService.searchTec(searchOptions).stream().
-    map(Technology::getNameTec).collect(Collectors.joining(", ")));
+        //"Zigbee Global, Wibree, Bluetooth Class 2: "
+        var techs = (technologyService.searchTec(10, 0.1).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Zigbee Global")).count());
+    }
 
+    @Test
+    void test13() {
+
+        var techs = (technologyService.searchTec(10, 0.24).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Zigbee Global")).count());
+    }
+
+    @Test
+    void test14() {
+
+        //"Wibree/Bluetooth Class 2"
+        var techs = (technologyService.searchTec(9, 1).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Wibree")).count());
+    }
+
+    @Test
+    void test15() {
+
+        var techs = (technologyService.searchTec(8, 1).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Wibree")).count());
+    }
+
+    @Test
+    void test16() {
+
+        var techs = (technologyService.searchTec(8, 2).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Bluetooth Classe 2")).count());
+    }
+
+    @Test
+    void test17() {
+
+        //"Bluetooth Smart (BLE) 2"
+        var techs = (technologyService.searchTec(8, 0.5).stream().
+                map(Technology::getNameTec).collect(Collectors.toList()));
+        assertEquals(1L, techs.stream().filter(s -> s.equals("Wibree")).count());
     }
 
 }
