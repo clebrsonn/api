@@ -16,9 +16,9 @@ import java.util.List;
 @Setter
 public class Classifier {
 
-    private KNN<double[]> knn;
+    KNN<double[]> knn;
 
-    private NominalScale nominalScale;
+    NominalScale nominalScale;
 
     private DataFrame df;
 

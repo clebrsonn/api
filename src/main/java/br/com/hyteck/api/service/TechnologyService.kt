@@ -1,5 +1,6 @@
 package br.com.hyteck.api.service
 
+import br.com.hyteck.api.dto.TechnologyDTO
 import br.com.hyteck.api.enums.TypeCategory
 import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.repository.TechnologyRepository
@@ -40,13 +41,23 @@ open class TechnologyService {
      *         ordered by the values closest to those received as input
      *
      */
-    open fun searchTec(range: Double, tx_data: Double): MutableList<Technology?>? {
+    open fun searchTec(range: Double, tx_data: Double): MutableList<TechnologyDTO> {
         val sort = Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type, TypeCategory.ENERGY.type)
 
-        return technologyRepository.findAll(SearchSpecification.where(range), sort).stream()
+        val technologies = technologyRepository.findAll(SearchSpecification.where(range), sort).stream()
                 .filter { t -> t.txData!! >= tx_data }
                 .sorted(Comparator.comparingDouble { t -> t.txData!! })
                 .collect(Collectors.toList())
+        var classified = ""
+
+        if (technologies.size > 1) {
+            val classifier = Classifier(technologies, 1)
+            val prediction = classifier.knn.predict(doubleArrayOf(tx_data, range))
+            classified = classifier.nominalScale.level(prediction)
+
+        }
+        return technologies.stream().map { tec -> TechnologyDTO(tec, classified) }.collect(Collectors.toList())
+
     }
 
 
