@@ -1,18 +1,11 @@
 package br.com.hyteck.api;
 
-import br.com.hyteck.api.record.Technology;
-import br.com.hyteck.api.repository.TechnologyRepository;
+import br.com.hyteck.api.dto.TechnologyDTO;
 import br.com.hyteck.api.service.Classifier;
-import br.com.hyteck.api.service.DistanceService;
 import br.com.hyteck.api.service.TechnologyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import smile.classification.KNN;
-import smile.data.DataFrame;
-import smile.data.measure.NominalScale;
-import smile.neighbor.KDTree;
-import smile.neighbor.KNNSearch;
 
 import java.util.stream.Collectors;
 
@@ -34,15 +27,6 @@ class ApiDataSourceApplicationTests {
         var technologies = technologyService.findAll();
 
         var classifier = new Classifier(technologies, 1);
-
-//        var df = DataFrame.of(technologies, Technology.class);//new JSON().read(tecJson);
-//        NominalScale nominalScale = df.stringVector("nameTec").nominal();
-//
-//
-//        double[][] X = df.select("txData", "rangeM").toArray();
-//        int[] y = df.stringVector("nameTec").factorize(nominalScale).toIntArray();
-
-//        var knn = KNN.fit(X, y, 1, new DistanceService());
 
         int predicao = classifier.getKnn().predict(new double[]{2, 50});
         assertEquals("BLE Classe 1", classifier.getNominalScale().level(predicao));
@@ -78,14 +62,13 @@ class ApiDataSourceApplicationTests {
 
         predicao = classifier.getKnn().predict(new double[]{0.5, 8});
             assertEquals("Wibree", classifier.getNominalScale().level(predicao));
-
     }
 
     @Test
     void test3() {
 
         var techs = technologyService.searchTec(50, 2).stream().
-                map(Technology::getNameTec).collect(Collectors.toList());
+                map(TechnologyDTO::getName).collect(Collectors.toList());
         assertEquals(1L, techs.stream().filter(s -> s.equals("BLE Classe 1")).count());
     }
 
@@ -93,14 +76,14 @@ class ApiDataSourceApplicationTests {
     @Test
     void test4() {
         var techs = (technologyService.searchTec(100, 3).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Bluetooth Classe 1")).count());
     }
 
     @Test
     void test5() {
         var techs = technologyService.searchTec(100, 54).stream().
-                map(Technology::getNameTec).collect(Collectors.toList());
+                map(TechnologyDTO::getName).collect(Collectors.toList());
         assertEquals(1L, techs.stream().filter(s -> s.equals("WIFI 2.4Ghz")).count());
 
     }
@@ -109,7 +92,7 @@ class ApiDataSourceApplicationTests {
     void test6() {
 
         var techs = (technologyService.searchTec(99, 54).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("WIFI 2.4Ghz")).count());
 
     }
@@ -118,7 +101,7 @@ class ApiDataSourceApplicationTests {
     void test11() {
 
         var techs = (technologyService.searchTec(100, 1).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Bluetooth Classe 1")).count());
     }
 
@@ -127,7 +110,7 @@ class ApiDataSourceApplicationTests {
 
         //"Zigbee Global, Wibree, Bluetooth Class 2: "
         var techs = (technologyService.searchTec(10, 0.1).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Zigbee Global")).count());
     }
 
@@ -135,7 +118,7 @@ class ApiDataSourceApplicationTests {
     void test13() {
 
         var techs = (technologyService.searchTec(10, 0.24).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Zigbee Global")).count());
     }
 
@@ -144,7 +127,7 @@ class ApiDataSourceApplicationTests {
 
         //"Wibree/Bluetooth Class 2"
         var techs = (technologyService.searchTec(9, 1).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Wibree")).count());
     }
 
@@ -152,7 +135,7 @@ class ApiDataSourceApplicationTests {
     void test15() {
 
         var techs = (technologyService.searchTec(8, 1).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Wibree")).count());
     }
 
@@ -160,7 +143,7 @@ class ApiDataSourceApplicationTests {
     void test16() {
 
         var techs = (technologyService.searchTec(8, 2).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Bluetooth Classe 2")).count());
     }
 
@@ -169,7 +152,7 @@ class ApiDataSourceApplicationTests {
 
         //"Bluetooth Smart (BLE) 2"
         var techs = (technologyService.searchTec(8, 0.5).stream().
-                map(Technology::getNameTec).collect(Collectors.toList()));
+                map(TechnologyDTO::getName).collect(Collectors.toList()));
         assertEquals(1L, techs.stream().filter(s -> s.equals("Wibree")).count());
     }
 

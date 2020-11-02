@@ -1,5 +1,6 @@
 package br.com.hyteck.api.controller
 
+import br.com.hyteck.api.dto.TechnologyDTO
 import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.service.TechnologyService
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,13 +26,13 @@ class TechnologyController {
     }
 
     @GetMapping("/search")
-    fun search(@RequestParam params :Map<String, Double>): MutableList<Technology?>? {
+    fun search(@RequestParam params :Map<String, String>): MutableList<TechnologyDTO>? {
 
-        val range: Double = params.getValue("range")
+        val range: String = params.getValue("range")
 
-        val txData: Double = params.getValue("tx_data")
+        val txData: String = params.getValue("tx_data")
 
-        return technologyService.searchTec(range, txData)
+        return technologyService.searchTec(range.toDouble(), txData.toDouble())
     }
 
     @GetMapping("/find-by-categories")
