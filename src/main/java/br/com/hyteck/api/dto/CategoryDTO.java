@@ -5,6 +5,7 @@ import br.com.hyteck.api.record.Category;
 import com.vladmihalcea.hibernate.type.range.Range;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,18 @@ public class CategoryDTO {
 
     public static List<CategoryDTO> from(List<Category> categories) {
         return categories.stream().map(CategoryDTO::new).collect(Collectors.toList());
+    }
+
+    private String naturalize(Range<BigDecimal> range){
+        var naturalized = new StringBuilder();
+
+        if(range.asString().startsWith("[")){
+            naturalized.append("iii");
+        }
+
+        return naturalized.toString();
+
+
     }
 
 
