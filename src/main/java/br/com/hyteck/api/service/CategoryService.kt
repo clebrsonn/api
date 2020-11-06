@@ -17,7 +17,7 @@ open class CategoryService {
     private lateinit var categoryRepository: CategoryRepository
 
     @Autowired
-    lateinit var technologyService: TechnologyService
+    private lateinit var technologyService: TechnologyService
 
     @Transactional
     open fun save(lower: BigDecimal, upper: BigDecimal, rangeType: RangeType, typeCategory: TypeCategory) : MutableList<Category> {

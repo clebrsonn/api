@@ -5,14 +5,12 @@ import br.com.hyteck.api.enums.RangeType
 import br.com.hyteck.api.enums.TypeCategory
 import br.com.hyteck.api.record.Category
 import br.com.hyteck.api.service.CategoryService
+import br.com.hyteck.api.service.TechnologyService
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.Parameters
 import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
 
 @RestController
@@ -21,6 +19,9 @@ class CategoryController {
 
     @Autowired
     lateinit var categoryService: CategoryService
+
+    @Autowired
+    lateinit var technologyService: TechnologyService
 
     @PostMapping
     @Parameters(value = [Parameter(name = "lower",
@@ -48,11 +49,11 @@ class CategoryController {
 
     @GetMapping("/adjust")
     fun categories() {
-        categoryService.calculateCategories(categoryService.technologyService.findAll())
+        categoryService.calculateCategories(technologyService.findAll())
     }
 
     @GetMapping
-    fun findAll(): MutableList<CategoryDTO> {
+    fun findAll(@RequestParam(required = false) a: String): MutableList<CategoryDTO> {
         return CategoryDTO.from(categoryService.findAll())
     }
 }
