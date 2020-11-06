@@ -17,6 +17,10 @@ open class TechnologyService {
     @Autowired
     private lateinit var technologyRepository: TechnologyRepository
 
+    @Autowired
+    private lateinit var categoryservice: CategoryService
+
+
     open fun findAll(): MutableList<Technology> {
         return technologyRepository.findAll()
     }
@@ -29,7 +33,10 @@ open class TechnologyService {
      *
      */
     open fun save(technologies: List<Technology>): MutableList<Technology> {
-        return technologyRepository.saveAll(technologies)
+        val technologies = technologyRepository.saveAll(technologies)
+        categoryservice.calculateCategories(technologies)
+
+        return technologies
 
     }
 
