@@ -53,7 +53,7 @@ class CategoryController {
     }
 
     @GetMapping
-    fun findAll(@RequestParam(required = false) a: String): MutableList<CategoryDTO> {
+    fun findAll(): MutableList<CategoryDTO> {
         return CategoryDTO.from(categoryService.findAll())
     }
 }

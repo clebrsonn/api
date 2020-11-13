@@ -28,7 +28,7 @@ public class CategoryDTO {
     public CategoryDTO(Category category) {
         this.type = category.getType().name();
         this.id = category.getId();
-        this.rangeType = category.getRange().asString();
+        this.rangeType = naturalize(category.getRange());
 
     }
 
@@ -39,9 +39,26 @@ public class CategoryDTO {
     private String naturalize(Range<BigDecimal> range){
         var naturalized = new StringBuilder();
 
-        if(range.asString().startsWith("[")){
-            naturalized.append("iii");
+        var lower = range.hasLowerBound()? range.lower().doubleValue() : 0;
+        if(lower == 0){
+            naturalized.append("menor ");
+        }else if(range.asString().startsWith("[")){
+            naturalized.append("de ");
+        }else{
+            naturalized.append("intervalo entre ");
         }
+        naturalized.append(range.hasLowerBound()? range.lower().doubleValue(): "");
+
+
+        if(range.asString().endsWith("]")){
+            naturalized.append(" até ");
+
+        }else{
+            naturalized.append(" e ");
+
+        }
+        naturalized.append(range.hasUpperBound()? range.upper().doubleValue() :"");
+
 
         return naturalized.toString();
 
