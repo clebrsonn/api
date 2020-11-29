@@ -32,7 +32,9 @@ class TechnologyController {
 
         val txData: String = params.getValue("tx_data")
 
-        return technologyService.searchTec(range.toDouble(), txData.toDouble())
+        val energy: String = params.getValue("energy")
+
+        return technologyService.searchTec(range.toDouble(), txData.toDouble(), energy.toInt())
     }
 
     @GetMapping("/find-by-categories")

@@ -33,10 +33,10 @@ open class TechnologyService {
      *
      */
     open fun save(technologies: List<Technology>): MutableList<Technology> {
-        val technologies = technologyRepository.saveAll(technologies)
-        categoryservice.calculateCategories(technologies)
+        val technologiesList = technologyRepository.saveAll(technologies)
+        categoryservice.calculateCategories(technologiesList)
 
-        return technologies
+        return technologiesList
 
     }
 
@@ -48,11 +48,14 @@ open class TechnologyService {
      *         ordered by the values closest to those received as input
      *
      */
+    open fun searchTec(range: Double, tx_data: Double): MutableList<TechnologyDTO> {
+        return searchTec(range, tx_data, 1)
+    }
     open fun searchTec(range: Double, tx_data: Double, energy : Int): MutableList<TechnologyDTO> {
 
         val sort = Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type)
 
-        if(energy == 2 || energy == 3){
+        if(energy >= 2){
             sort.and(Sort.by(Sort.Direction.ASC, TypeCategory.ENERGY.type))
         }
 
