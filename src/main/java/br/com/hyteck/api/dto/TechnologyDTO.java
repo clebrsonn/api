@@ -4,6 +4,9 @@ import br.com.hyteck.api.record.Technology;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *
+ */
 @Data
 @NoArgsConstructor
 public class TechnologyDTO {
@@ -13,7 +16,6 @@ public class TechnologyDTO {
     private Double txData;
     private Double range;
     private boolean best = false;
-
 
     public TechnologyDTO(Technology technology, String classification) {
         this.name = technology.getNameTec();
@@ -25,7 +27,4 @@ public class TechnologyDTO {
         }
 
     }
-
-
-
 }
