@@ -48,8 +48,13 @@ open class TechnologyService {
      *         ordered by the values closest to those received as input
      *
      */
-    open fun searchTec(range: Double, tx_data: Double): MutableList<TechnologyDTO> {
-        val sort = Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type, TypeCategory.ENERGY.type)
+    open fun searchTec(range: Double, tx_data: Double, energy : Int): MutableList<TechnologyDTO> {
+
+        val sort = Sort.by(Sort.Direction.ASC, TypeCategory.RANGE.type)
+
+        if(energy == 2 || energy == 3){
+            sort.and(Sort.by(Sort.Direction.ASC, TypeCategory.ENERGY.type))
+        }
 
         val technologies = technologyRepository.findAll(SearchSpecification.where(range), sort).stream()
                 .filter { t -> t.txData!! >= tx_data }

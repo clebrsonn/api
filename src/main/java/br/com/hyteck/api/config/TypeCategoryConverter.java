@@ -2,7 +2,6 @@ package br.com.hyteck.api.config;
 
 import br.com.hyteck.api.enums.TypeCategory;
 import br.com.hyteck.api.exception.TypeCategoryException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.converter.Converter;
@@ -22,7 +21,7 @@ public class TypeCategoryConverter implements Converter<String, TypeCategory> {
         try {
             return TypeCategory.valueOf(value);
         } catch (Exception ex) {
-            throw new TypeCategoryException(messageSource.getMessage("enum.notfound", new String[]{value} ,LocaleContextHolder.getLocale()), ex);
+            throw new TypeCategoryException(messageSource.getMessage("enum.notfound", new String[]{value}, LocaleContextHolder.getLocale()), ex);
         }
     }
 }
