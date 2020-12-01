@@ -6,6 +6,7 @@ import br.com.hyteck.api.service.TechnologyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("technologies")
@@ -21,7 +22,7 @@ class TechnologyController {
 
     @PostMapping(consumes = ["application/json"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody tecs: MutableList<Technology>): MutableIterable<Technology> {
+    fun save(@RequestBody @Valid  tecs: MutableList<Technology>): MutableIterable<Technology> {
         return technologyService.save(tecs.filterNotNull())
     }
 

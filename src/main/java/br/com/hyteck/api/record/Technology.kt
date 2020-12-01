@@ -1,10 +1,11 @@
 package br.com.hyteck.api.record
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 @Entity
 @Table
@@ -16,6 +17,9 @@ class Technology {
     val id: Long? = null
 
     @Parameter
+    @NotNull
+    @NotBlank
+//    @Min(2)
     lateinit var nameTec: String
 
     @Parameter
@@ -76,11 +80,7 @@ class Technology {
             return field
         }
 
-//    @Parameter
-//    var classification: String? = null
-
     @ManyToMany(mappedBy = "technologies", fetch = FetchType.LAZY)
-  //  @JsonBackReference
     @JsonIgnore
     var categories: MutableSet<Category> = mutableSetOf()
 
