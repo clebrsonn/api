@@ -30,7 +30,13 @@ open class CategoryService {
         return categoryRepository.findAll()
     }
 
+    /**
+     * Reclassifies all technologies in the respective categories
+     *
+     */
     open fun calculateCategories(technologies : MutableList<Technology>){
+
+
         technologies.forEach  {
             val catRange = it.rangeM?.let { range -> categoryRepository.findByTypeAndRange(type = TypeCategory.RANGE.name, range = range) }
             val catTxData = it.txData?.let { txData -> categoryRepository.findByTypeAndRange(type = TypeCategory.TX_DATA.name, range = txData) }
