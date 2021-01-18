@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
+import java.util.function.Consumer
 
 @Service
 open class CategoryService {
@@ -36,10 +37,17 @@ open class CategoryService {
      */
     open fun calculateCategories(technologies : MutableList<Technology>){
 
+        val cats = categoryRepository.findAll()
 
+                cats.forEach(Consumer {
+            cat-> cat.technologies.removeAll(cat.technologies)
+            categoryRepository.save(cat)
+        })
         technologies.forEach  {
-            val catRange = it.rangeM?.let { range -> categoryRepository.findByTypeAndRange(type = TypeCategory.RANGE.name, range = range) }
-            val catTxData = it.txData?.let { txData -> categoryRepository.findByTypeAndRange(type = TypeCategory.TX_DATA.name, range = txData) }
+            val catRange = it.rangeM?.let { range ->
+                categoryRepository.findByTypeAndRange(type = TypeCategory.RANGE.name, range = range) }
+            val catTxData = it.txData?.let { txData ->
+                categoryRepository.findByTypeAndRange(type = TypeCategory.TX_DATA.name, range = txData) }
 
             catRange?.addTecnology(it)
             catTxData?.addTecnology(it)

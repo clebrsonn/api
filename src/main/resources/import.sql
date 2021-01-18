@@ -20,7 +20,7 @@ INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee
 INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('WIFI 5Ghz', 160.0, 50.0, 5.0, '802.11ac', 2007, 100.0, 1024.0);
 INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('LoraWAN', 0.125, 20.0, NULL, NULL, NULL, 1500.0, 0.25);
 INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('GPRS', 0.2, 33.0, 1.0, NULL, NULL, 10000.0, 2.5);
-INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('4G', NULL, NULL, 0.2, NULL, NULL, 10000.0, 300.0);
+INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('4G', 800, 45, 0.2, NULL, NULL, 10000.0, 300.0);
 INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('WirelessHART', NULL, 10.0, 2.4, '802.15.4-2006', NULL, 200.0, 0.25);
 INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Wibree', NULL, 10.0, 2.4, NULL, NULL, 10.0, 1.0);
 INSERT INTO public.technology (name_tec, bandwidth, consumption, frequency, ieee, nr_nodes, range_m, tx_data) VALUES('Narrow Band', 0.18, 20.0, NULL, NULL, NULL, 20000.0, 0.127);
