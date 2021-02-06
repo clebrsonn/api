@@ -62,6 +62,7 @@ open class TechnologyService {
         val technologies = technologyRepository.findAll(SearchSpecification.where(range), sort).stream()
                 .filter { t -> t.txData!! >= tx_data }
                 .sorted(Comparator.comparingDouble { t -> t.txData!! })
+                .limit(5)
                 .collect(Collectors.toList())
         var classified = ""
 
