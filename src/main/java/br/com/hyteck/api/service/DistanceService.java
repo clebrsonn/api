@@ -32,9 +32,9 @@ public class DistanceService implements Distance<double[]> {
         var ym = Math.sqrt(dist0 + dist1);
 
 
-        double d1 = x[0] -y[0];
-
-        double d2 = x[1] -y[1];
+//        double d1 = x[0] -y[0];
+//
+//        double d2 = x[1] -y[1];
 
         dist = ym;
 
