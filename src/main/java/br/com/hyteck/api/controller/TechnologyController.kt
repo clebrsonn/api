@@ -39,7 +39,7 @@ class TechnologyController {
     }
 
     @GetMapping("/find-by-categories")
-    fun findAllByCategories(@RequestParam catIds: MutableSet<Long>): MutableList<Technology> {
+    fun findAllByCategories(@RequestParam catIds: MutableSet<Long>): MutableList<TechnologyDTO> {
         return technologyService.findAllByCategories(catIds)
     }
 
