@@ -25,8 +25,13 @@ open class TechnologyService {
         return technologyRepository.findAll()
     }
 
-    open fun findAllByCategories(catIds: MutableSet<Long>): MutableList<Technology> {
-        return technologyRepository.findAllByCategories(catIds)
+    open fun findAllByCategories(catIds: MutableSet<Long>): MutableList<TechnologyDTO> {
+
+        return technologyRepository
+            .findAllByCategories(catIds)
+            .stream().map { tec -> TechnologyDTO(tec, "") }
+            .collect(Collectors.toList())
+
     }
 
     /**
