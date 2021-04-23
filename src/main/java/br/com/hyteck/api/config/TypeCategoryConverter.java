@@ -2,6 +2,7 @@ package br.com.hyteck.api.config;
 
 import br.com.hyteck.api.enums.TypeCategory;
 import br.com.hyteck.api.exception.TypeCategoryException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.converter.Converter;
@@ -17,7 +18,7 @@ public class TypeCategoryConverter implements Converter<String, TypeCategory> {
     }
 
     @Override
-    public TypeCategory convert(String value) {
+    public TypeCategory convert(@NotNull String value) {
         try {
             return TypeCategory.valueOf(value);
         } catch (Exception ex) {

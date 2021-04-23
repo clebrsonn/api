@@ -1,10 +1,11 @@
 package br.com.hyteck.api.service
 
-import br.com.hyteck.api.record.Category
 import br.com.hyteck.api.enums.RangeType
 import br.com.hyteck.api.enums.TypeCategory
+import br.com.hyteck.api.record.Category
 import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.repository.CategoryRepository
+import br.com.hyteck.api.repository.specification.SearchSpecification
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -37,12 +38,16 @@ open class CategoryService {
      */
     open fun calculateCategories(technologies : MutableList<Technology>){
 
-        val cats = categoryRepository.findAll()
+        val cats = categoryRepository.findAll(SearchSpecification.whereTechnologiesIn(technologies))
 
-                cats.forEach(Consumer {
-            cat-> cat.technologies.removeAll(cat.technologies)
-            categoryRepository.save(cat)
+        cats.forEach(Consumer {
+            cat-> cat.technologies = mutableListOf()
         })
+
+        categoryRepository.saveAll(cats)
+
+        val categories : MutableList<Category?> = mutableListOf()
+
         technologies.forEach  {
             val catRange = it.rangeM?.let { range ->
                 categoryRepository.findByTypeAndRange(type = TypeCategory.RANGE.name, range = range) }
@@ -52,9 +57,11 @@ open class CategoryService {
             catRange?.addTecnology(it)
             catTxData?.addTecnology(it)
 
-            catRange?.let { categoryRepository.save(catRange) }
-            catTxData?.let { categoryRepository.save(catTxData) }
+            categories.add(catRange)
+            categories.add(catTxData)
         }
+
+        categoryRepository.saveAll(categories)
     }
 
     open fun findAll(): MutableList<Category> {

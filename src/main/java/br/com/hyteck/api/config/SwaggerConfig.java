@@ -17,7 +17,7 @@ public class SwaggerConfig{
                         .title("API para a pesquisa sobre as tecnologias Wi-Fi")
                         .version("1.0.0")
                         .description("Api usada para o desenvolvimento do  TCC, usada para calcular" +
-                                " a melhor tecnologia a ser usada  de acordo com "));
+                                " a melhor tecnologia a ser usada  de acordo com os dados recebidos"));
     }
 
 }
