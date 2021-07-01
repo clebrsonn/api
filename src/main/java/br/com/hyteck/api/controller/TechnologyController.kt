@@ -43,4 +43,13 @@ class TechnologyController {
         return technologyService.findAllByCategories(catIds)
     }
 
+    @GetMapping("/names")
+    fun findAllNames(): MutableList<Technology> {
+        return technologyService.findAllNames()
+    }
+
+    @GetMapping("/{id}")
+    fun findById(@PathVariable id: Long): TechnologyDTO {
+        return technologyService.findById(id)
+    }
 }

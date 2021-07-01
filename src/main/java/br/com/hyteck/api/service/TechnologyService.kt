@@ -6,6 +6,7 @@ import br.com.hyteck.api.record.Technology
 import br.com.hyteck.api.repository.TechnologyRepository
 import br.com.hyteck.api.repository.specification.SearchSpecification
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import java.util.*
@@ -79,6 +80,15 @@ open class TechnologyService {
         }
         return technologies.stream().map { tec -> TechnologyDTO(tec, classified) }.collect(Collectors.toList())
 
+    }
+
+    fun findAllNames(): MutableList<Technology> {
+        return technologyRepository.findAllNames()
+    }
+
+    fun findById(id: Long): TechnologyDTO {
+        return technologyRepository.findById(id).map { tec-> TechnologyDTO(tec, "") }
+            .orElseThrow { EmptyResultDataAccessException(1) }
     }
 
 
