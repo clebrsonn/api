@@ -39,29 +39,21 @@ public class CategoryDTO {
     private String naturalize(Range<BigDecimal> range){
         var naturalized = new StringBuilder();
 
-        var lower = range.hasLowerBound()? range.lower().doubleValue() : 0;
-        if(lower == 0){
-            naturalized.append("menor ");
-        }else if(range.asString().startsWith("[")){
-            naturalized.append("de ");
-        }else{
+        if(range.lower().doubleValue() == 0){
+            naturalized.append("menor que ");
+        }else if(range.hasLowerBound() && range.hasUpperBound()){
             naturalized.append("intervalo entre ");
-        }
-        naturalized.append(range.hasLowerBound()? range.lower().doubleValue(): "");
-
-
-        if(range.asString().endsWith("]")){
-            naturalized.append(" até ");
-
         }else{
-            naturalized.append(" e ");
+            naturalized.append("maior que ");
+        }
+        naturalized.append(range.lower().doubleValue() != 0? range.lower().doubleValue(): "");
 
+
+        if(range.lower().doubleValue() != 0 && range.hasUpperBound()){
+            naturalized.append(" e ");
         }
         naturalized.append(range.hasUpperBound()? range.upper().doubleValue() :"");
-
-
         return naturalized.toString();
-
 
     }
 

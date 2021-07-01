@@ -40,7 +40,7 @@ class TechnologyRepositoryImpl : CustomTechnologyRepository {
         val query = entityManager.createQuery(queryString, Technology::class.java)
 
         searchOptions.options.forEach { (option, value) ->
-            query.setParameter("val${option.ordinal}", value)
+            query.setParameter("tec${option.ordinal}", value)
         }
         return query.resultList
     }

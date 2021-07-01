@@ -10,11 +10,16 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table
 @Schema
-class Technology {
+class Technology() {
+
+    constructor(nameTec: String, id: Long) : this() {
+        this.nameTec = nameTec
+        this.id = (id)
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    var id: Long? = null
 
     @Parameter
     @NotNull
