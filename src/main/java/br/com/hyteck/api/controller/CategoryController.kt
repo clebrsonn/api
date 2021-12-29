@@ -24,24 +24,13 @@ class CategoryController {
     lateinit var technologyService: TechnologyService
 
     @PostMapping
-    @Parameters(value = [Parameter(name = "lower",
-            description = "lower",
-            example = "2.0",
-            required = false),
-        Parameter(name = "upper",
-                description = "upper",
-                example = "2.0",
-                required = false),
-        Parameter(name = "rangeType",
-                description = "rangeType",
-                example = "Closed",
-                required = true,
-                schema = Schema(implementation = RangeType::class)),
-        Parameter(name = "typeCategory",
-                description = "typeCategory",
-                example = "RANGE",
-                required = true,
-                schema = Schema(implementation = TypeCategory::class))
+    @Parameters(value = [
+        Parameter(name = "lower", description = "lower", example = "2.0", required = false),
+        Parameter(name = "upper", description = "upper", example = "2.0", required = false),
+        Parameter(name = "rangeType", description = "rangeType", example = "Closed", required = true,
+                    schema = Schema(implementation = RangeType::class)),
+        Parameter(name = "typeCategory", description = "typeCategory", example = "RANGE", required = true,
+                    schema = Schema(implementation = TypeCategory::class))
     ])
     fun save(lower: BigDecimal, upper: BigDecimal, rangeType: RangeType, typeCategory: TypeCategory): MutableList<Category> {
         return categoryService.save(lower, upper, rangeType, typeCategory)
